@@ -10,17 +10,18 @@
     .brand { font-weight: bold; font-size: 1.1rem; color: #4a3b32; }
     .cart-status { background: #e8f5e9; color: #2e7d32; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; border: 1px solid #a5d6a7; }
     
-    /* Header Grouping / Kategori */
-    .category-header { background: #4a3b32; color: #fff; padding: 10px 15px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; margin: 25px 0 15px 0; display: flex; align-items: center; gap: 8px; }
+    .category-header { background: #4a3b32; color: #fff; padding: 10px 15px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; margin: 25px 0 15px 0; }
     .category-header:first-of-type { margin-top: 0; }
     
-    /* Grid Katalog */
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin-bottom: 20px; }
     .product-card { background: #fff; border-radius: 8px; padding: 12px; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
     .product-card img { width: 100%; height: 130px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; }
     .product-title { font-size: 0.95rem; font-weight: bold; color: #333; margin-bottom: 2px; }
     .product-variant { font-size: 0.8rem; color: #666; margin-bottom: 6px; font-weight: 500; }
     .product-price { color: #d32f2f; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; }
+    
+    /* Form Dropdown Topping */
+    .topping-select { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 0.85rem; margin-bottom: 10px; background: #fff; color: #333; }
     
     .qty-control { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
     .qty-btn { width: 28px; height: 28px; border: 1px solid #ccc; background: #f0f0f0; border-radius: 4px; font-weight: bold; cursor: pointer; }
@@ -46,125 +47,7 @@
     </div>
   </div>
 
-  <!-- KATEGORI 1: BROWNIES -->
-  <div class="category-header">🍫 Menu Brownies</div>
-  <div class="product-grid">
-    
-    <!-- Small -->
-    <div class="product-card">
-      <div>
-        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" alt="Brownies Small">
-        <div class="product-title">Fudgy Brownies</div>
-        <div class="product-variant">Varian: Small (10x10)</div>
-        <div class="product-price">Rp 25.000</div>
-      </div>
-      <div>
-        <div class="qty-control">
-          <button class="qty-btn" onclick="ubahQty('br-s', -1)">-</button>
-          <input type="number" id="br-s-qty" class="qty-input" value="1" min="1" readonly>
-          <button class="qty-btn" onclick="ubahQty('br-s', 1)">+</button>
-        </div>
-        <button class="btn-add" onclick="tambahKeKeranjang('Brownies - Small', 25000, 'br-s-qty')">+ Keranjang</button>
-      </div>
-    </div>
-
-    <!-- Medium -->
-    <div class="product-card">
-      <div>
-        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" alt="Brownies Medium">
-        <div class="product-title">Fudgy Brownies</div>
-        <div class="product-variant">Varian: Medium (20x10)</div>
-        <div class="product-price">Rp 50.000</div>
-      </div>
-      <div>
-        <div class="qty-control">
-          <button class="qty-btn" onclick="ubahQty('br-m', -1)">-</button>
-          <input type="number" id="br-m-qty" class="qty-input" value="1" min="1" readonly>
-          <button class="qty-btn" onclick="ubahQty('br-m', 1)">+</button>
-        </div>
-        <button class="btn-add" onclick="tambahKeKeranjang('Brownies - Medium', 50000, 'br-m-qty')">+ Keranjang</button>
-      </div>
-    </div>
-
-    <!-- Large -->
-    <div class="product-card">
-      <div>
-        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" alt="Brownies Large">
-        <div class="product-title">Fudgy Brownies</div>
-        <div class="product-variant">Varian: Large (20x20)</div>
-        <div class="product-price">Rp 90.000</div>
-      </div>
-      <div>
-        <div class="qty-control">
-          <button class="qty-btn" onclick="ubahQty('br-l', -1)">-</button>
-          <input type="number" id="br-l-qty" class="qty-input" value="1" min="1" readonly>
-          <button class="qty-btn" onclick="ubahQty('br-l', 1)">+</button>
-        </div>
-        <button class="btn-add" onclick="tambahKeKeranjang('Brownies - Large', 90000, 'br-l-qty')">+ Keranjang</button>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- KATEGORI 2: BURNT CHEESECAKE -->
-  <div class="category-header">🧀 Menu Burnt Cheesecake</div>
-  <div class="product-grid">
-    
-    <!-- Small -->
-    <div class="product-card">
-      <div>
-        <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" alt="Cheesecake Small">
-        <div class="product-title">Burnt Cheesecake</div>
-        <div class="product-variant">Varian: Small (Personal)</div>
-        <div class="product-price">Rp 35.000</div>
-      </div>
-      <div>
-        <div class="qty-control">
-          <button class="qty-btn" onclick="ubahQty('bc-s', -1)">-</button>
-          <input type="number" id="bc-s-qty" class="qty-input" value="1" min="1" readonly>
-          <button class="qty-btn" onclick="ubahQty('bc-s', 1)">+</button>
-        </div>
-        <button class="btn-add" onclick="tambahKeKeranjang('Burnt Cheesecake - Small', 35000, 'bc-s-qty')">+ Keranjang</button>
-      </div>
-    </div>
-
-    <!-- Medium -->
-    <div class="product-card">
-      <div>
-        <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" alt="Cheesecake Medium">
-        <div class="product-title">Burnt Cheesecake</div>
-        <div class="product-variant">Varian: Medium (Slice)</div>
-        <div class="product-price">Rp 65.000</div>
-      </div>
-      <div>
-        <div class="qty-control">
-          <button class="qty-btn" onclick="ubahQty('bc-m', -1)">-</button>
-          <input type="number" id="bc-m-qty" class="qty-input" value="1" min="1" readonly>
-          <button class="qty-btn" onclick="ubahQty('bc-m', 1)">+</button>
-        </div>
-        <button class="btn-add" onclick="tambahKeKeranjang('Burnt Cheesecake - Medium', 65000, 'bc-m-qty')">+ Keranjang</button>
-      </div>
-    </div>
-
-    <!-- Large -->
-    <div class="product-card">
-      <div>
-        <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" alt="Cheesecake Large">
-        <div class="product-title">Burnt Cheesecake</div>
-        <div class="product-variant">Varian: Large (Whole 16cm)</div>
-        <div class="product-price">Rp 120.000</div>
-      </div>
-      <div>
-        <div class="qty-control">
-          <button class="qty-btn" onclick="ubahQty('bc-l', -1)">-</button>
-          <input type="number" id="bc-l-qty" class="qty-input" value="1" min="1" readonly>
-          <button class="qty-btn" onclick="ubahQty('bc-l', 1)">+</button>
-        </div>
-        <button class="btn-add" onclick="tambahKeKeranjang('Burnt Cheesecake - Large', 120000, 'bc-l-qty')">+ Keranjang</button>
-      </div>
-    </div>
-
-  </div>
+  <div id="catalog-container"></div>
 
   <!-- Pop-Up Keranjang -->
   <div id="cartModal" class="cart-modal">
@@ -183,7 +66,80 @@
 
   <script>
     const nomorWA = "6287889667929";
+
+    // Opsi Topping Global (Bisa disesuaikan harga tambahannya)
+    const listTopping = [
+      { nama: "Tanpa Topping", harga: 0 },
+      { nama: "Almond Slice", harga: 5000 },
+      { nama: "Keju Parut", harga: 5000 },
+      { nama: "Chocochips", harga: 4000 },
+      { nama: "Lotus Biscoff", harga: 7000 },
+      { nama: "Nutella Swirl", harga: 8000 }
+    ];
+
+    // Data Katalog Menu
+    const menuData = [
+      {
+        kategori: "🍫 Menu Brownies",
+        items: [
+          { id: "br-s", nama: "Fudgy Brownies", varian: "Small (10x10)", harga: 25000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" },
+          { id: "br-m", nama: "Fudgy Brownies", varian: "Medium (20x10)", harga: 50000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" },
+          { id: "br-l", nama: "Fudgy Brownies", varian: "Large (20x20)", harga: 90000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" }
+        ]
+      },
+      {
+        kategori: "🧀 Menu Burnt Cheesecake",
+        items: [
+          { id: "bc-s", nama: "Burnt Cheesecake", varian: "Small (Personal)", harga: 35000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" },
+          { id: "bc-m", nama: "Burnt Cheesecake", varian: "Medium (Slice)", harga: 65000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" },
+          { id: "bc-l", nama: "Burnt Cheesecake", varian: "Large (Whole 16cm)", harga: 120000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" }
+        ]
+      }
+    ];
+
     let keranjang = [];
+
+    function renderKatalog() {
+      const container = document.getElementById('catalog-container');
+      container.innerHTML = '';
+
+      menuData.forEach(kat => {
+        let categoryHtml = `<div class="category-header">${kat.kategori}</div><div class="product-grid">`;
+        
+        kat.items.forEach(item => {
+          // Buat Opsi Dropdown Topping
+          let toppingOptionsHtml = `<select id="${item.id}-topping" class="topping-select">`;
+          listTopping.forEach((top, index) => {
+            const labelHarga = top.harga > 0 ? ` (+Rp ${top.harga.toLocaleString('id-ID')})` : '';
+            toppingOptionsHtml += `<option value="${index}">${top.nama}${labelHarga}</option>`;
+          });
+          toppingOptionsHtml += `</select>`;
+
+          categoryHtml += `
+            <div class="product-card">
+              <div>
+                <img src="${item.img}" alt="${item.nama}">
+                <div class="product-title">${item.nama}</div>
+                <div class="product-variant">Varian: ${item.varian}</div>
+                <div class="product-price">Rp ${item.harga.toLocaleString('id-ID')}</div>
+                ${toppingOptionsHtml}
+              </div>
+              <div>
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="ubahQty('${item.id}', -1)">-</button>
+                  <input type="number" id="${item.id}-qty" class="qty-input" value="1" min="1" readonly>
+                  <button class="qty-btn" onclick="ubahQty('${item.id}', 1)">+</button>
+                </div>
+                <button class="btn-add" onclick="tambahKeKeranjang('${item.nama}', '${item.varian}', ${item.harga}, '${item.id}')">+ Keranjang</button>
+              </div>
+            </div>
+          `;
+        });
+
+        categoryHtml += `</div>`;
+        container.innerHTML += categoryHtml;
+      });
+    }
 
     function ubahQty(id, delta) {
       const input = document.getElementById(id + '-qty');
@@ -192,17 +148,27 @@
       input.value = val;
     }
 
-    function tambahKeKeranjang(nama, harga, qtyId) {
-      const qty = parseInt(document.getElementById(qtyId).value);
-      const index = keranjang.findIndex(item => item.nama === nama);
+    function tambahKeKeranjang(nama, varian, hargaDasar, itemId) {
+      const qty = parseInt(document.getElementById(itemId + '-qty').value);
+      const toppingIndex = document.getElementById(itemId + '-topping').value;
+      const toppingSelected = listTopping[toppingIndex];
+
+      // Hitung harga item + topping
+      const hargaTotalItem = hargaDasar + toppingSelected.harga;
+      const toppingText = toppingSelected.harga > 0 ? ` [Topping: ${toppingSelected.nama}]` : '';
+      const namaLengkap = `${nama} - ${varian}${toppingText}`;
+
+      // Cek keranjang
+      const index = keranjang.findIndex(item => item.nama === namaLengkap);
       if (index > -1) {
         keranjang[index].qty += qty;
       } else {
-        keranjang.push({ nama, harga, qty });
+        keranjang.push({ nama: namaLengkap, harga: hargaTotalItem, qty });
       }
-      document.getElementById(qtyId).value = 1;
+
+      document.getElementById(itemId + '-qty').value = 1;
       updateTampilanKeranjang();
-      alert(nama + " (" + qty + " pcs) ditambahkan ke keranjang!");
+      alert(`${namaLengkap} (${qty} pcs) berhasil ditambahkan!`);
     }
 
     function updateTampilanKeranjang() {
@@ -261,6 +227,8 @@
 
       window.open("https://wa.me/" + nomorWA + "?text=" + pesan, "_blank");
     }
+
+    renderKatalog();
   </script>
 </body>
 </html>
