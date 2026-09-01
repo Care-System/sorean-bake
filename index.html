@@ -2,9 +2,23 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-    body { padding: 15px 15px 0 15px; background-color: #f9f9f9; min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* Hilangkan scrollbar ganda internal iframe */
+    html, body { 
+      background-color: #f9f9f9; 
+      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+    
+    body { 
+      padding: 15px 15px 0 15px; 
+      display: flex; 
+      flex-direction: column; 
+    }
     
     .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; position: sticky; top: 0; z-index: 100; }
     .brand { font-weight: bold; font-size: 1.1rem; color: #4a3b32; }
@@ -36,8 +50,7 @@
     .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 15px; color: #d32f2f; }
     .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; margin-top: 15px; cursor: pointer; font-size: 0.95rem; }
 
-    /* CUSTOM FOOTER RAMPING & ELEGAT */
-    footer { margin-top: auto; background-color: #4a3b32; color: #f0e6df; padding: 15px 20px; border-radius: 8px 8px 0 0; font-size: 0.85rem; }
+    footer { margin-top: 20px; background-color: #4a3b32; color: #f0e6df; padding: 15px 20px; border-radius: 8px 8px 0 0; font-size: 0.85rem; }
     .footer-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; max-width: 1200px; margin: 0 auto; }
     .footer-info { display: flex; flex-direction: column; gap: 3px; }
     .footer-brand { font-weight: bold; font-size: 0.95rem; color: #fff; }
@@ -73,7 +86,6 @@
     </div>
   </div>
 
-  <!-- CUSTOM FOOTER TOKO SOREAN BAKE -->
   <footer>
     <div class="footer-container">
       <div class="footer-info">
@@ -110,15 +122,14 @@
         items: [
           { id: "br-s", nama: "Fudgy Brownies", varian: "Mini Fudgy Brownies (10x10)", harga: 25000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" },
           { id: "br-m", nama: "Fudgy Brownies", varian: "Medium Fudgy Brownies (20x10)", harga: 49000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" },
-          { id: "br-l", nama: "Fudgy Brownies", varian: "Large Fudgy  Brownies (22x22)", harga: 85000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" }
+          { id: "br-l", nama: "Fudgy Brownies", varian: "Large Fudgy Brownies (22x22)", harga: 85000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" }
         ]
       },
       {
         kategori: "🧀 Basque Cheesecake",
         items: [
           { id: "bc-s", nama: "Burnt Cheesecake", varian: "Mini Cheesecake (10D)", harga: 35000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" },
-          { id: "bc-m", nama: "Burnt Cheesecake", varian: "Regular Cheesecake (16D)", harga: 65000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" },
-          // { id: "bc-l", nama: "Burnt Cheesecake", varian: "Large (Whole 16cm)", harga: 120000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" }
+          { id: "bc-m", nama: "Burnt Cheesecake", varian: "Regular Cheesecake (16D)", harga: 65000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" }
         ]
       }
     ];
@@ -236,7 +247,7 @@
         return;
       }
 
-      let pesan = "Halo Toko Sorean Bake, saya mau konfirmasi pesanan berikut:%0A%0A";
+      let pesan = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut:%0A%0A";
       let total = 0;
 
       keranjang.forEach(item => {
@@ -245,7 +256,7 @@
         pesan += `- ${item.nama} (${item.qty} pcs) = Rp ${subtotal.toLocaleString('id-ID')}%0A`;
       });
 
-      pesan += `%0A*Total Pembayaran:* Rp ${total.toLocaleString('id-ID')}`;
+      pesan += `%0A*Total Belanja :* Rp ${total.toLocaleString('id-ID')}`;
       pesan += "%0A%0AMohon diinformasikan alur pembayaran dan pengirimannya. Terima kasih!";
 
       window.open("https://wa.me/" + nomorWA + "?text=" + pesan, "_blank");
