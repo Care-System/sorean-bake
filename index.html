@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-    
-    /* Paksa html dan body mengambil tinggi sesuai isi konten saja */
-    html, body { 
-      background-color: #f9f9f9; 
-      height: auto !important;
-      min-height: 0 !important;
-      overflow: visible !important;
+  
+    /* Memaksa dokumen mengikuti tinggi konten asli */
+    html {
+      height: max-content !important;
     }
     
     body { 
+      background-color: #f9f9f9; 
       padding: 8px 8px 10px 8px; 
       display: flex; 
       flex-direction: column; 
+      height: auto !important;
+      min-height: unset !important;
     }
     
     .top-bar { 
@@ -33,7 +33,7 @@
       top: 0; 
       z-index: 100; 
     }
-    .brand { font-weight: bold; font-size: 0.9rem; color: #4a3b32; white-space: nowrap; }
+    .brand { font-weight: bold; font-size: 0.85rem; color: #4a3b32; white-space: nowrap; }
     .cart-status { 
       background: #e8f5e9; 
       color: #2e7d32; 
