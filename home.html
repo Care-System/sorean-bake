@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>- Sorean Bake -</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    html, body { background-color: #faf8f5; color: #4a3b32; overflow-x: hidden; }
+    body { padding: 12px; }
+
+    /* --- HERO BANNER --- */
+    .hero {
+      background: linear-gradient(135deg, #4a3b32 0%, #2d231e 100%);
+      color: #ffffff;
+      padding: 24px 18px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .hero h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .hero p { font-size: 0.85rem; opacity: 0.9; margin-bottom: 14px; line-height: 1.4; }
+    .badge {
+      display: inline-block;
+      background: #d32f2f;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- SECTION HEADERS & NAV BUTTONS --- */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .section-title { font-size: 1rem; font-weight: bold; color: #4a3b32; display: flex; align-items: center; gap: 6px; }
+    .carousel-nav-btn {
+      background: #ffffff;
+      border: 1px solid #d7ccc8;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      color: #4a3b32;
+      transition: all 0.2s;
+    }
+    .carousel-nav-btn:hover { background: #4a3b32; color: #fff; }
+
+    /* --- CAROUSEL CONTAINER (MENU HIGHLIGHT) --- */
+    .carousel-container {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding-bottom: 10px;
+      margin-bottom: 24px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .carousel-container::-webkit-scrollbar { height: 4px; }
+    .carousel-container::-webkit-scrollbar-thumb { background: #d7ccc8; border-radius: 4px; }
+
+    /* CAROUSEL MENU CARD */
+    .menu-card {
+      min-width: 200px;
+      max-width: 220px;
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #eee;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      flex-shrink: 0;
+    }
+    .menu-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .menu-tag {
+      font-size: 0.65rem;
+      background: #fbe9e7;
+      color: #d32f2f;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    .menu-title { font-size: 0.85rem; font-weight: bold; color: #333; margin-bottom: 2px; }
+    .menu-desc { font-size: 0.7rem; color: #666; margin-bottom: 8px; line-height: 1.2; }
+    .menu-price { font-size: 0.85rem; font-weight: bold; color: #d32f2f; }
+
+    /* --- TESTIMONIAL / REVIEWS CAROUSEL --- */
+    .review-section {
+      background: #fff8f5;
+      padding: 16px 12px;
+      border-radius: 12px;
+      border: 1px solid #ffe0b2;
+      margin-bottom: 20px;
+    }
+    .review-grid {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 6px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .review-grid::-webkit-scrollbar { height: 4px; }
+    .review-grid::-webkit-scrollbar-thumb { background: #ffe0b2; border-radius: 4px; }
+    
+    .review-card {
+      min-width: 210px;
+      max-width: 230px;
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+    .review-user { font-weight: bold; font-size: 0.75rem; color: #333; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .stars { color: #fbc02d; font-size: 0.7rem; }
+    .review-text { font-size: 0.72rem; color: #555; font-style: italic; line-height: 1.3; }
+    .review-link { text-align: center; margin-top: 10px; font-size: 0.75rem; }
+    .review-link a { color: #d32f2f; text-decoration: none; font-weight: bold; }
+
+    /* FOOTER RINGKAS HOME */
+    footer {
+      text-align: center;
+      padding: 12px;
+      font-size: 0.7rem;
+      color: #8d6e63;
+      border-top: 1px dashed #d7ccc8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO SECTION BANNER -->
+  <div class="hero">
+    <span class="badge">Freshly Baked Daily</span>
+    <h1 style="margin-top:8px;"> Sorean Bake</h1>
+    <p>Premium Fudgy Brownies & Creamy Basque Cheesecake buatan tangan dengan bahan berkualitas tinggi.</p>
+  </div>
+
+  <!-- CAROUSEL MENU UNGGULAN -->
+  <div class="section-header">
+    <div class="section-title">✨ Menu Favorit (Highlights)</div>
+    <div>
+      <button class="carousel-nav-btn" onclick="scrollMenu(-200)">&lt;</button>
+      <button class="carousel-nav-btn" onclick="scrollMenu(200)">&gt;</button>
+    </div>
+  </div>
+
+  <div class="carousel-container" id="menuCarousel">
+    
+    <!-- CARD 1 -->
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" alt="Fudgy Brownies">
+      <div>
+        <span class="menu-tag">Best Seller</span>
+        <div class="menu-title">Fudgy Brownies Shiny Crust</div>
+        <div class="menu-desc">Tekstur lumer di dalam dengan lapisan crust renyah khas di atasnya.</div>
+      </div>
+      <div class="menu-price">Mulai Rp 25.000</div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" alt="Basque Cheesecake">
+      <div>
+        <span class="menu-tag">Chef Choice</span>
+        <div class="menu-title">Basque Burnt Cheesecake</div>
+        <div class="menu-desc">Keju lembut dipanggang sempurna dengan rasa gurih manis yang meleleh.</div>
+      </div>
+      <div class="menu-price">Mulai Rp 35.000</div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" alt="Medium Brownies">
+      <div>
+        <span class="menu-tag">Hemat</span>
+        <div class="menu-title">Medium Brownies (20x10)</div>
+        <div class="menu-desc">Ukuran pas untuk kumpul keluarga atau hadiah spesial teman dekat.</div>
+      </div>
+      <div class="menu-price">Rp 49.000</div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="menu-card">
+      <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" alt="Regular Cheesecake">
+      <div>
+        <span class="menu-tag">Favorite</span>
+        <div class="menu-title">Regular Cheesecake (16D)</div>
+        <div class="menu-desc">Diameter 16cm cocok untuk perayaan ulang tahun & momen manis.</div>
+      </div>
+      <div class="menu-price">Rp 65.000</div>
+    </div>
+
+  </div>
+
+  <!-- CAROUSEL REVIEW CUSTOMER INSTAGRAM -->
+  <div class="review-section">
+    <div class="section-header" style="margin-bottom:8px;">
+      <div class="section-title">💬 Review & Testimoni Pelanggan</div>
+    </div>
+
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-user">
+          <span>@kak_nana</span>
+          <span class="stars">★★★★★</span>
+        </div>
+        <p class="review-text">"Brownies-nya beneran fudgy banget, gak bikin enek manisnya pas. Next order varian large!"</p>
+      </div>
+
+      <div class="review-card">
+        <div class="review-user">
+          <span>@bunda_sari</span>
+          <span class="stars">★★★★★</span>
+        </div>
+        <p class="review-text">"Basque cheesecake-nya creamy banget, anak-anak suka banget topping oreo-nya."</p>
+      </div>
+
+      <div class="review-card">
+        <div class="review-user">
+          <span>@dito_pratama</span>
+          <span class="stars">★★★★★</span>
+        </div>
+        <p class="review-text">"Pengiriman aman, kue masih hangat pas nyampe. Topping lotus-nya gak pelit 👍"</p>
+      </div>
+    </div>
+
+    <div class="review-link">
+      <a href="https://www.instagram.com/stories/highlights/18090714716126182/" target="_blank">📲 Lihat Highlight Testimoni Instagram &rarr;</a>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Sorean Bake • Freshly Baked Daily
+  </footer>
+
+  <script>
+    function scrollMenu(amount) {
+      document.getElementById('menuCarousel').scrollBy({
+        left: amount,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+</body>
+</html>
