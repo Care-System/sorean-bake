@@ -10,15 +10,14 @@
       overflow: visible !important;
     }
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-  
-    /* Memaksa dokumen mengikuti tinggi konten asli */
+    
     html {
       height: max-content !important;
     }
     
     body { 
       background-color: #f9f9f9; 
-      padding: 8px 8px 10px 8px; 
+      padding: 12px; 
       display: flex; 
       flex-direction: column; 
       height: auto !important;
@@ -29,61 +28,110 @@
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      padding: 8px 10px; 
+      padding: 10px 15px; 
       background: #fff; 
       border-radius: 8px; 
       box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-      margin-bottom: 12px; 
+      margin-bottom: 15px; 
       position: sticky; 
       top: 0; 
       z-index: 100; 
     }
-    .brand { font-weight: bold; font-size: 0.85rem; color: #4a3b32; white-space: nowrap; }
+    .brand { font-weight: bold; font-size: 1rem; color: #4a3b32; white-space: nowrap; }
     .cart-status { 
       background: #e8f5e9; 
       color: #2e7d32; 
-      padding: 5px 10px; 
+      padding: 6px 12px; 
       border-radius: 20px; 
       font-weight: bold; 
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       cursor: pointer; 
       display: flex; 
       align-items: center; 
-      gap: 4px; 
+      gap: 6px; 
       border: 1px solid #a5d6a7; 
       white-space: nowrap;
     }
     
-    .category-header { background: #4a3b32; color: #fff; padding: 8px 12px; font-size: 0.95rem; font-weight: bold; border-radius: 6px; margin: 15px 0 10px 0; }
+    .category-header { background: #4a3b32; color: #fff; padding: 10px 14px; font-size: 1.05rem; font-weight: bold; border-radius: 6px; margin: 20px 0 12px 0; }
     .category-header:first-of-type { margin-top: 0; }
     
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 15px; }
-    .product-card { background: #fff; border-radius: 8px; padding: 8px; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
-    .product-card img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 6px; }
-    .product-title { font-size: 0.8rem; font-weight: bold; color: #333; margin-bottom: 2px; }
-    .product-variant { font-size: 0.7rem; color: #666; margin-bottom: 4px; font-weight: 500; }
-    .product-price { color: #d32f2f; font-weight: bold; font-size: 0.8rem; margin-bottom: 6px; }
+    /* UKURAN GRID DIBERIKAN MINIMUM 180px AGAR LEBIH LEBAR DAN LEGA */
+    .product-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+      gap: 15px; 
+      margin-bottom: 20px; 
+    }
+
+    /* KARTU PRODUK DIBUAT LEBIH LEGA & PROPORSI TINGGI DILANJUTKAN */
+    .product-card { 
+      background: #fff; 
+      border-radius: 10px; 
+      padding: 12px; 
+      border: 1px solid #e0e0e0; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    /* GAMBAR DIBUAT LEBIH TINGGI (130px) */
+    .product-card img { 
+      width: 100%; 
+      height: 130px; 
+      object-fit: cover; 
+      border-radius: 8px; 
+      margin-bottom: 10px; 
+    }
+
+    /* UKURAN FONT DINAIKKAN */
+    .product-title { font-size: 0.95rem; font-weight: bold; color: #333; margin-bottom: 3px; line-height: 1.2; }
+    .product-variant { font-size: 0.8rem; color: #666; margin-bottom: 6px; font-weight: 500; }
+    .product-price { color: #d32f2f; font-weight: bold; font-size: 0.95rem; margin-bottom: 10px; }
     
-    .topping-select { width: 100%; padding: 4px; border-radius: 4px; border: 1px solid #ccc; font-size: 0.7rem; margin-bottom: 6px; background: #fff; color: #333; }
+    .topping-select { 
+      width: 100%; 
+      padding: 6px 8px; 
+      border-radius: 6px; 
+      border: 1px solid #ccc; 
+      font-size: 0.8rem; 
+      margin-bottom: 10px; 
+      background: #fff; 
+      color: #333; 
+    }
     
-    .qty-control { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px; }
-    .qty-btn { width: 22px; height: 22px; border: 1px solid #ccc; background: #f0f0f0; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
-    .qty-input { width: 30px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 2px; font-weight: bold; font-size: 0.75rem; }
-    .btn-add { width: 100%; background: #4a3b32; color: #fff; border: none; padding: 6px; border-radius: 5px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
+    .qty-control { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
+    .qty-btn { width: 28px; height: 28px; border: 1px solid #ccc; background: #f0f0f0; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem; }
+    .qty-input { width: 36px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-weight: bold; font-size: 0.85rem; }
+    
+    .btn-add { 
+      width: 100%; 
+      background: #4a3b32; 
+      color: #fff; 
+      border: none; 
+      padding: 8px 10px; 
+      border-radius: 6px; 
+      font-weight: bold; 
+      font-size: 0.85rem; 
+      cursor: pointer; 
+      transition: background 0.2s;
+    }
+    .btn-add:hover { background: #332822; }
 
     .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-    .cart-content { background: #fff; width: 92%; max-width: 380px; border-radius: 10px; padding: 15px; max-height: 85vh; overflow-y: auto; }
+    .cart-content { background: #fff; width: 92%; max-width: 400px; border-radius: 10px; padding: 18px; max-height: 85vh; overflow-y: auto; }
     .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px; }
-    .close-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #888; }
+    .close-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #888; }
     .cart-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
-    .cart-total { font-weight: bold; font-size: 0.95rem; text-align: right; margin-top: 12px; color: #d32f2f; }
-    .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 12px; cursor: pointer; font-size: 0.9rem; }
+    .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 12px; color: #d32f2f; }
+    .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 12px; cursor: pointer; font-size: 0.95rem; }
 
-    footer { margin-top: 10px; background-color: #4a3b32; color: #f0e6df; padding: 10px; border-radius: 6px; font-size: 0.75rem; }
+    footer { margin-top: 15px; background-color: #4a3b32; color: #f0e6df; padding: 12px; border-radius: 6px; font-size: 0.8rem; }
     .footer-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
     .footer-brand { font-weight: bold; color: #fff; }
     .footer-links a { color: #d7ccc8; text-decoration: none; margin-left: 8px; }
-    .footer-copy { text-align: center; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4px; margin-top: 4px; font-size: 0.65rem; color: #bcaaa4; }
+    .footer-copy { text-align: center; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; margin-top: 6px; font-size: 0.7rem; color: #bcaaa4; }
   </style>
 </head>
 <body>
