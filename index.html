@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorean Bake - Katalog</title>
   <style>
     html, body {
       height: auto !important;
@@ -56,7 +57,6 @@
     .category-header { background: #4a3b32; color: #fff; padding: 10px 14px; font-size: 1.05rem; font-weight: bold; border-radius: 6px; margin: 20px 0 12px 0; }
     .category-header:first-of-type { margin-top: 0; }
     
-    /* UKURAN GRID DIBERIKAN MINIMUM 220px AGAR LEBIH LEBAR DAN LEGA */
     .product-grid { 
       display: grid; 
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
@@ -64,7 +64,6 @@
       margin-bottom: 20px; 
     }
 
-    /* KARTU PRODUK DIBUAT LEBIH LEGA & PROPORSI TINGGI DILANJUTKAN */
     .product-card { 
       background: #fff; 
       border-radius: 10px; 
@@ -76,7 +75,6 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
 
-    /* GAMBAR DIBUAT LEBIH TINGGI (170px) */
     .product-card img { 
       width: 100%; 
       height: 170px; 
@@ -85,7 +83,6 @@
       margin-bottom: 10px; 
     }
 
-    /* UKURAN FONT DINAIKKAN */
     .product-title { font-size: 0.95rem; font-weight: bold; color: #333; margin-bottom: 3px; line-height: 1.2; }
     .product-variant { font-size: 0.8rem; color: #666; margin-bottom: 6px; font-weight: 500; }
     .product-price { color: #d32f2f; font-weight: bold; font-size: 0.95rem; margin-bottom: 10px; }
@@ -133,6 +130,9 @@
     .footer-links a { color: #d7ccc8; text-decoration: none; margin-left: 8px; }
     .footer-copy { text-align: center; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; margin-top: 6px; font-size: 0.7rem; color: #bcaaa4; }
   </style>
+
+  <!-- Pustaka Pembaca CSV Google Sheets -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 </head>
 <body>
 
@@ -143,7 +143,9 @@
     </div>
   </div>
 
-  <div id="catalog-container"></div>
+  <div id="catalog-container">
+    <p style="text-align:center; padding: 20px; color:#666;">Memuat data menu...</p>
+  </div>
 
   <div id="cartModal" class="cart-modal">
     <div class="cart-content">
@@ -177,7 +179,13 @@
 
   <script>
     const nomorWA = "6287889667929";
+    const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUmFMSHvd6gaL6VaGqouFpKmpG7dYmTgei27iKEJaUE5J_I8iiGCnmjT2RruEGwfx715NLS62F8DUX/pub?gid=0&single=true&output=csv";
 
+    // Data Penampung Dinamis
+    let menuData = [];
+    let keranjang = [];
+
+    // Daftar Topping Statis (atau bisa diintegrasikan ke sheet terpisah nanti)
     const listTopping = [
       { nama: "Tanpa Topping", harga: 0 },
       { nama: "Peanut", harga: 5000 },
@@ -189,38 +197,57 @@
       { nama: "Fresh Fruit", harga: 8000 }
     ];
 
-    const menuData = [
-      {
-        kategori: "🍫 Fudgy Brownies",
-        items: [
-          { id: "br-s", nama: "Fudgy Brownies", varian: "Mini (10x10)", harga: 25000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" },
-          { id: "br-m", nama: "Fudgy Brownies", varian: "Medium (20x10)", harga: 49000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" },
-          { id: "br-l", nama: "Fudgy Brownies", varian: "Large (22x22)", harga: 85000, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300" },
-          { id: "cbr-m", nama: "Cheese Fudgy Brownies", varian: "Medium (20x10)", harga: 79000, img: "./assets/cheese fudgy brownie.png" },
-          { id: "cbr-l", nama: "Cheese Fudgy Brownies", varian: "Large (22x22)", harga: 145000, img: "./assets/cheese fudgy brownie.png" }
-        ]
-      },
-      {
-        kategori: "🧀 Basque Cheesecake",
-        items: [
-          { id: "bc-s", nama: "Burnt Cheesecake", varian: "Mini (10D)", harga: 49000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" },
-          { id: "bc-m", nama: "Burnt Cheesecake", varian: "Regular (16D)", harga: 129000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" }
-        ]
-      },
-      {
-        kategori: "🥮 Bolu",
-        items: [
-          { id: "bl-s", nama: "Bolu Cheesecake", varian: "Mini (10D)", harga: 35000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" },
-          { id: "bl-m", nama: "Burnt Cheesecake", varian: "Regular (16D)", harga: 80000, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=300" }
-        ]
-      },
-    ];
+    // Function Mengambil Data CSV dari Google Sheets
+    async function loadDataDariGoogleSheets() {
+      try {
+        const response = await fetch(URL_GOOGLE_SHEETS);
+        const dataCsv = await response.text();
+        
+        Papa.parse(dataCsv, {
+          header: true,
+          dynamicTyping: true,
+          complete: function(results) {
+            prosesAndRenderData(results.data);
+          }
+        });
+      } catch (error) {
+        console.error("Gagal mengambil data dari Google Sheets:", error);
+        document.getElementById('catalog-container').innerHTML = '<p style="text-align:center; color:red;">Gagal memuat menu. Periksa koneksi internet.</p>';
+      }
+    }
 
-    let keranjang = [];
+    function prosesAndRenderData(dataRows) {
+      menuData = [];
+      
+      dataRows.forEach(row => {
+        if (!row.nama || !row.kategori) return; 
+        
+        let kat = menuData.find(x => x.kategori === row.kategori);
+        if (!kat) {
+          kat = { kategori: row.kategori, items: [] };
+          menuData.push(kat);
+        }
+        
+        kat.items.push({
+          id: String(row.id),
+          nama: row.nama,
+          varian: row.varian,
+          harga: Number(row.harga),
+          img: row.img
+        });
+      });
+
+      renderKatalog();
+    }
 
     function renderKatalog() {
       const container = document.getElementById('catalog-container');
       container.innerHTML = '';
+
+      if (menuData.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#888;">Belum ada menu yang tersedia.</p>';
+        return;
+      }
 
       menuData.forEach(kat => {
         let categoryHtml = `<div class="category-header">${kat.kategori}</div><div class="product-grid">`;
@@ -344,7 +371,8 @@
       window.open("https://wa.me/" + nomorWA + "?text=" + pesan, "_blank");
     }
 
-    renderKatalog();
+    // Jalankan pemanggilan data otomatis saat halaman dibuka
+    loadDataDariGoogleSheets();
   </script>
 </body>
 </html>
