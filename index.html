@@ -387,7 +387,9 @@
     function bukaKeranjang() { document.getElementById('cartModal').style.display = 'flex'; }
     function tutupKeranjang() { document.getElementById('cartModal').style.display = 'none'; }
 
-    function kirimWhatsApp() {
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw-uFMs9UfGjjMvWXwX-bVwUzevnKgK8tAJJXydiJg_4RlXCVCIOP9lW6hAdMmuX57U/exec";
+
+    async function kirimWhatsApp() {
       if (keranjang.length === 0) {
         alert("Keranjang Anda masih kosong!");
         return;
@@ -400,22 +402,68 @@
         return;
       }
 
-      let pesan = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut:%0A";
-      pesan += `*Atas Nama:* ${namaPemesan}%0A%0A`;
-      pesan += "*Detail Pesanan:*%0A";
-      
-      let total = 0;
+      // 1. Olah Data Per-Item untuk Google Sheets (Opsi 2)
+      const payloadItems = keranjang.map(item => {
+        // Ekstrak info topping dari namaLengkap jika ada
+        let toppingName = "Tanpa Topping";
+        let menuNameOnly = item.nama;
 
+        if (item.nama.includes("[Topping:")) {
+          const parts = item.nama.split(" [Topping: ");
+          menuNameOnly = parts[0];
+          toppingName = parts[1].replace("]", "");
+        }
+
+        // Cari kategori berdasarkan nama menu
+        let itemKategori = "Lainnya";
+        for (let kat of menuData) {
+          if (kat.items.some(m => menuNameOnly.includes(m.nama))) {
+            itemKategori = kat.kategori;
+            break;
+          }
+        }
+
+        return {
+          kategori: itemKategori,
+          namaVarian: menuNameOnly,
+          topping: toppingName,
+          qty: item.qty,
+          hargaSatuan: item.harga,
+          subtotal: item.harga * item.qty
+        };
+      });
+
+      // 2. Kirim Data Detail ke Google Sheets
+      try {
+        fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nama: namaPemesan,
+            items: payloadItems
+          })
+        });
+      } catch (err) {
+        console.error("Gagal mengirim data ke Google Sheets:", err);
+      }
+
+      // 3. Buka Chat WhatsApp
+      let pesanWA = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut:%0A";
+      pesanWA += `*Atas Nama:* ${encodeURIComponent(namaPemesan)}%0A%0A`;
+      pesanWA += "*Detail Pesanan:*%0A";
+
+      let total = 0;
       keranjang.forEach(item => {
         const subtotal = item.harga * item.qty;
         total += subtotal;
-        pesan += `- ${item.nama} (${item.qty} pcs) = Rp ${subtotal.toLocaleString('id-ID')}%0A`;
+        pesanWA += `- ${encodeURIComponent(item.nama)} (${item.qty} pcs) = Rp ${subtotal.toLocaleString('id-ID')}%0A`;
       });
 
-      pesan += `%0A*Total Belanja :* Rp ${total.toLocaleString('id-ID')}`;
-      pesan += "%0A%0AMohon diinformasikan alur pembayaran dan pengirimannya. Terima kasih!";
+      pesanWA += `%0A*Total Belanja :* Rp ${total.toLocaleString('id-ID')}`;
+      pesanWA += "%0A%0AMohon diinformasikan alur pembayaran dan pengirimannya. Terima kasih!";
 
-      window.open("https://wa.me/" + nomorWA + "?text=" + pesan, "_blank");
+      window.open("https://wa.me/" + nomorWA + "?text=" + pesanWA, "_blank");
     }
 
     loadDataDariGoogleSheets();
