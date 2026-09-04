@@ -415,7 +415,7 @@
         return;
       }
 
-      // 1. Olah Data Per-Item untuk Google Sheets
+      // 1. Olah Data Per-Item
       const payloadItems = keranjang.map(item => {
         let toppingName = "Tanpa Topping";
         let menuNameOnly = item.nama;
@@ -444,7 +444,7 @@
         };
       });
 
-      // 2. Kirim Data Nama, Email, & Items ke Google Sheets
+      // 2. Kirim Data ke Google Sheets
       try {
         fetch(WEB_APP_URL, {
           method: "POST",
