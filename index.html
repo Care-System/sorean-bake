@@ -12,9 +12,7 @@
     }
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
     
-    html {
-      height: max-content !important;
-    }
+    html { height: max-content !important; }
     
     body { 
       background-color: #f9f9f9; 
@@ -116,11 +114,23 @@
     }
     .btn-add:hover { background: #332822; }
 
+    /* STYLING MODAL KERANJANG TERBARU */
     .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-    .cart-content { background: #fff; width: 92%; max-width: 400px; border-radius: 10px; padding: 18px; max-height: 85vh; overflow-y: auto; }
-    .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px; }
+    .cart-content { background: #fff; width: 92%; max-width: 420px; border-radius: 10px; padding: 18px; max-height: 85vh; overflow-y: auto; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 12px; }
     .close-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #888; }
-    .cart-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
+    
+    /* Input Nama Pemesan */
+    .customer-input-group { margin-bottom: 12px; }
+    .customer-input-group label { display: block; font-size: 0.8rem; font-weight: bold; color: #4a3b32; margin-bottom: 4px; }
+    .customer-input-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.85rem; }
+
+    /* Item Keranjang Interaktif */
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.85rem; border-bottom: 1px dashed #eee; padding-bottom: 8px; gap: 8px; }
+    .cart-item-info { flex: 1; }
+    .cart-item-actions { display: flex; align-items: center; gap: 6px; }
+    .btn-delete { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
+    
     .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 12px; color: #d32f2f; }
     .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 12px; cursor: pointer; font-size: 0.95rem; }
 
@@ -147,15 +157,25 @@
     <p style="text-align:center; padding: 20px; color:#666;">Memuat data menu...</p>
   </div>
 
+  <!-- MODAL KERANJANG BELANJA DENGAN FITUR EDIT & NAMA -->
   <div id="cartModal" class="cart-modal">
     <div class="cart-content">
       <div class="cart-header">
         <h3>Keranjang Belanja</h3>
         <button class="close-btn" onclick="tutupKeranjang()">&times;</button>
       </div>
+
+      <!-- Form Input Nama Pemesan -->
+      <div class="customer-input-group">
+        <label for="customer-name">Atas Nama Pemesan:</label>
+        <input type="text" id="customer-name" placeholder="Masukkan nama Anda..." required>
+      </div>
+
+      <!-- Daftar Item Pesanan -->
       <div id="cart-items-list">
         <p style="text-align:center; color:#888;">Keranjang masih kosong.</p>
       </div>
+
       <div class="cart-total" id="cart-total-price">Total: Rp 0</div>
       <button class="btn-checkout" onclick="kirimWhatsApp()">Konfirmasi & Pesan via WA</button>
     </div>
@@ -181,11 +201,9 @@
     const nomorWA = "6287889667929";
     const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUmFMSHvd6gaL6VaGqouFpKmpG7dYmTgei27iKEJaUE5J_I8iiGCnmjT2RruEGwfx715NLS62F8DUX/pub?gid=0&single=true&output=csv";
 
-    // Data Penampung Dinamis
     let menuData = [];
     let keranjang = [];
 
-    // Daftar Topping Statis (atau bisa diintegrasikan ke sheet terpisah nanti)
     const listTopping = [
       { nama: "Tanpa Topping", harga: 0 },
       { nama: "Peanut", harga: 5000 },
@@ -197,7 +215,6 @@
       { nama: "Fresh Fruit", harga: 8000 }
     ];
 
-    // Function Mengambil Data CSV dari Google Sheets
     async function loadDataDariGoogleSheets() {
       try {
         const response = await fetch(URL_GOOGLE_SHEETS);
@@ -314,6 +331,21 @@
       alert(`${namaLengkap} (${qty} pcs) ditambahkan!`);
     }
 
+    /* FUNGSI EDIT KELOLA JUMLAH DI DALAM KERANJANG */
+    function ubahQtyKeranjang(index, delta) {
+      keranjang[index].qty += delta;
+      if (keranjang[index].qty < 1) {
+        keranjang[index].qty = 1;
+      }
+      updateTampilanKeranjang();
+    }
+
+    /* FUNGSI HAPUS ITEM DARI KERANJANG */
+    function hapusItemKeranjang(index) {
+      keranjang.splice(index, 1);
+      updateTampilanKeranjang();
+    }
+
     function updateTampilanKeranjang() {
       const cartCount = document.getElementById('cart-count');
       const cartList = document.getElementById('cart-items-list');
@@ -326,18 +358,23 @@
       if (keranjang.length === 0) {
         cartList.innerHTML = '<p style="text-align:center; color:#888;">Keranjang masih kosong.</p>';
       } else {
-        keranjang.forEach((item) => {
+        keranjang.forEach((item, index) => {
           totalItems += item.qty;
           const subtotal = item.harga * item.qty;
           totalPrice += subtotal;
 
           cartList.innerHTML += `
             <div class="cart-item">
-              <div>
+              <div class="cart-item-info">
                 <strong>${item.nama}</strong><br>
-                <small>${item.qty} x Rp ${item.harga.toLocaleString('id-ID')}</small>
+                <small>Rp ${item.harga.toLocaleString('id-ID')} x ${item.qty} = <b>Rp ${subtotal.toLocaleString('id-ID')}</b></small>
               </div>
-              <div>Rp ${subtotal.toLocaleString('id-ID')}</div>
+              <div class="cart-item-actions">
+                <button class="qty-btn" onclick="ubahQtyKeranjang(${index}, -1)">-</button>
+                <span style="font-weight:bold; font-size:0.85rem;">${item.qty}</span>
+                <button class="qty-btn" onclick="ubahQtyKeranjang(${index}, 1)">+</button>
+                <button class="btn-delete" onclick="hapusItemKeranjang(${index})" title="Hapus Item">✕</button>
+              </div>
             </div>
           `;
         });
@@ -356,7 +393,17 @@
         return;
       }
 
-      let pesan = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut,%0A Atas Nama:%0A%0A";
+      const namaPemesan = document.getElementById('customer-name').value.trim();
+      if (!namaPemesan) {
+        alert("Mohon isi 'Atas Nama Pemesan' terlebih dahulu!");
+        document.getElementById('customer-name').focus();
+        return;
+      }
+
+      let pesan = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut:%0A";
+      pesan += `*Atas Nama:* ${namaPemesan}%0A%0A`;
+      pesan += "*Detail Pesanan:*%0A";
+      
       let total = 0;
 
       keranjang.forEach(item => {
@@ -371,7 +418,6 @@
       window.open("https://wa.me/" + nomorWA + "?text=" + pesan, "_blank");
     }
 
-    // Jalankan pemanggilan data otomatis saat halaman dibuka
     loadDataDariGoogleSheets();
   </script>
 </body>
