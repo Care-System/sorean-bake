@@ -165,10 +165,15 @@
         <button class="close-btn" onclick="tutupKeranjang()">&times;</button>
       </div>
 
-      <!-- Form Input Nama Pemesan -->
+      <!-- Form Input Nama & Email Pemesan -->
       <div class="customer-input-group">
         <label for="customer-name">Atas Nama Pemesan:</label>
         <input type="text" id="customer-name" placeholder="Masukkan nama Anda..." required>
+      </div>
+
+      <div class="customer-input-group" style="margin-top: 10px;">
+        <label for="customer-email">Email Pemesan:</label>
+        <input type="email" id="customer-email" placeholder="contoh: soreanbake@gmail.com" required>
       </div>
 
       <!-- Daftar Item Pesanan -->
@@ -396,15 +401,22 @@
       }
 
       const namaPemesan = document.getElementById('customer-name').value.trim();
+      const emailPemesan = document.getElementById('customer-email').value.trim();
+
       if (!namaPemesan) {
         alert("Mohon isi 'Atas Nama Pemesan' terlebih dahulu!");
         document.getElementById('customer-name').focus();
         return;
       }
 
-      // 1. Olah Data Per-Item untuk Google Sheets (Opsi 2)
+      if (!emailPemesan || !emailPemesan.includes('@')) {
+        alert("Mohon isi 'Email Pemesan' dengan alamat email yang valid!");
+        document.getElementById('customer-email').focus();
+        return;
+      }
+
+      // 1. Olah Data Per-Item untuk Google Sheets
       const payloadItems = keranjang.map(item => {
-        // Ekstrak info topping dari namaLengkap jika ada
         let toppingName = "Tanpa Topping";
         let menuNameOnly = item.nama;
 
@@ -414,7 +426,6 @@
           toppingName = parts[1].replace("]", "");
         }
 
-        // Cari kategori berdasarkan nama menu
         let itemKategori = "Lainnya";
         for (let kat of menuData) {
           if (kat.items.some(m => menuNameOnly.includes(m.nama))) {
@@ -433,7 +444,7 @@
         };
       });
 
-      // 2. Kirim Data Detail ke Google Sheets
+      // 2. Kirim Data Nama, Email, & Items ke Google Sheets
       try {
         fetch(WEB_APP_URL, {
           method: "POST",
@@ -441,6 +452,7 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             nama: namaPemesan,
+            email: emailPemesan,
             items: payloadItems
           })
         });
@@ -450,7 +462,8 @@
 
       // 3. Buka Chat WhatsApp
       let pesanWA = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut:%0A";
-      pesanWA += `*Atas Nama:* ${encodeURIComponent(namaPemesan)}%0A%0A`;
+      pesanWA += `*Atas Nama:* ${encodeURIComponent(namaPemesan)}%0A`;
+      pesanWA += `*Email:* ${encodeURIComponent(emailPemesan)}%0A%0A`;
       pesanWA += "*Detail Pesanan:*%0A";
 
       let total = 0;
