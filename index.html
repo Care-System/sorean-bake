@@ -22,46 +22,48 @@
       height: auto !important;
       min-height: unset !important;
     }
-    /* Sembunyikan bar atas bawaan agar tidak memakan tempat */
+    /* HEADER PENEMPEL KATALOG (BERJALAN DI DESKTOP & MOBILE) */
     .top-bar { 
-      display: flex;
-      justify-content: flex-end;
-      background: transparent;
-      padding: 0;
-      margin: 0;
-      border: none;
-      box-shadow: none;
+      position: -webkit-sticky !important;
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 9999 !important;
+      
+      display: flex !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
+      
+      background: rgba(255, 255, 255, 0.95) !important; /* Latar belakang putih transparan */
+      backdrop-filter: blur(5px);                      /* Efek kaca buram modern */
+      padding: 10px 15px !important;
+      margin-bottom: 15px !important;
+      border-radius: 8px !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
     }
 
     .brand { 
-      display: none; /* Sembunyikan judul brand di embed karena sudah ada di header Google Sites */
+      display: none !important; /* Sembunyikan nama toko agar tidak memenuhi header */
     }
 
-    /* TOMBOL KERANJANG MELAYANG (FIXED FLOATING) */
+    /* TOMBOL KERANJANG */
     .cart-status { 
-      position: fixed !important;
-      top: 15px;                  /* Jarak dari atas layar embed */
-      right: 15px;                /* Jarak dari kanan layar embed */
-      z-index: 9999 !important;   /* Memastikan selalu berada di paling depan */
-      
-      background: #2e7d32; 
-      color: #ffffff; 
-      padding: 10px 18px; 
-      border-radius: 50px; 
-      font-weight: bold; 
-      font-size: 0.9rem; 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      border: 2px solid #ffffff; 
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
-      transition: all 0.2s ease-in-out;
+      background: #2e7d32 !important; 
+      color: #ffffff !important; 
+      padding: 8px 16px !important; 
+      border-radius: 20px !important; 
+      font-weight: bold !important; 
+      font-size: 0.85rem !important; 
+      cursor: pointer !important; 
+      display: flex !important; 
+      align-items: center !important; 
+      gap: 6px !important; 
+      border: none !important; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15) !important;
+      transition: background 0.2s !important;
     }
 
     .cart-status:hover {
-      background: #1b5e20;
-      transform: scale(1.05);
+      background: #1b5e20 !important;
     }
         
     .category-header { background: #4a3b32; color: #fff; padding: 10px 14px; font-size: 1.05rem; font-weight: bold; border-radius: 6px; margin: 20px 0 12px 0; }
