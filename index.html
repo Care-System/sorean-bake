@@ -78,7 +78,7 @@
     color: #fff;
   }
 
-  /* TOMBOL KERANJANG (UKURAN RAPI) */
+  /* TOMBOL KERANJANG */
   .cart-status { 
     background: #2e7d32; 
     color: #ffffff; 
@@ -120,6 +120,22 @@
     color: #f0e6df;
     max-width: 600px;
     margin: 0 auto;
+  }
+
+  /* INFO BAR OPERASIONAL */
+  .info-bar {
+    background: #eef2f3;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: #4a3b32;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    font-weight: 500;
   }
 
   /* KATALOG CONTAINER */
@@ -175,13 +191,12 @@
 
   .product-title { font-size: 0.95rem; font-weight: bold; color: #333; margin-bottom: 4px; line-height: 1.2; }
   .product-variant { font-size: 0.8rem; color: #666; margin-bottom: 8px; font-weight: 500; }
-/*  .product-price { color: #d32f2f; font-weight: bold; font-size: 0.95rem; margin-bottom: 10px; }*/
-
-  /* STYLING HARGA PROMO & CORET */
+  
+  /* STYLING HARGA PROMO & BADGE */
   .price-container {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 10px;
     flex-wrap: wrap;
   }
@@ -189,25 +204,25 @@
   .product-price { 
     color: #d32f2f; 
     font-weight: bold; 
-    font-size: 1rem; 
+    font-size: 0.95rem; 
   }
 
   .product-price-strike { 
     color: #999; 
     text-decoration: line-through; 
-    font-size: 0.85rem; 
+    font-size: 0.8rem; 
   }
 
   .promo-badge {
     background: #ffebee;
     color: #c62828;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: bold;
     padding: 2px 6px;
     border-radius: 4px;
     border: 1px solid #ffcdd2;
   }
-  
+
   .topping-select { 
     width: 100%; 
     padding: 7px; 
@@ -239,12 +254,12 @@
 
   /* MODAL KERANJANG */
   .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-  .cart-content { background: #fff; width: 92%; max-width: 420px; border-radius: 12px; padding: 20px; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+  .cart-content { background: #fff; width: 92%; max-width: 440px; border-radius: 12px; padding: 20px; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
   .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
   .close-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #888; }
   
-  .customer-input-group { margin-bottom: 12px; }
-  .customer-input-group label { display: block; font-size: 0.85rem; font-weight: bold; color: #4a3b32; margin-bottom: 4px; }
+  .customer-input-group { margin-bottom: 10px; }
+  .customer-input-group label { display: block; font-size: 0.8rem; font-weight: bold; color: #4a3b32; margin-bottom: 3px; }
   .customer-input-group input { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.85rem; }
 
   .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.85rem; border-bottom: 1px dashed #eee; padding-bottom: 10px; gap: 8px; }
@@ -252,8 +267,16 @@
   .cart-item-actions { display: flex; align-items: center; gap: 6px; }
   .btn-delete { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; border-radius: 4px; width: 26px; height: 26px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
   
-  .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 15px; color: #d32f2f; }
-  .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 15px; cursor: pointer; font-size: 0.95rem; }
+  .payment-info-box {
+    background: #fdfbf7;
+    border: 1px solid #f0e6df;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+  }
+
+  .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 12px; color: #d32f2f; }
+  .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 12px; cursor: pointer; font-size: 0.95rem; }
 
   /* FOOTER */
   footer { 
@@ -280,6 +303,7 @@
   @media (max-width: 600px) {
     .nav-menu { display: none; }
     .hero-banner h1 { font-size: 1.4rem; }
+    .info-bar { font-size: 0.75rem; gap: 8px; }
   }
   </style>
 
@@ -313,6 +337,15 @@
     <p>Nikmati kelezatan Fudgy Brownies & Basque Cheesecake olahan rumahan buatan tangan terbaik kami.</p>
   </section>
 
+  <!-- PAPAN INFORMASI OPERASIONAL & PENGIRIMAN -->
+  <div class="info-bar">
+    <span>🛵 Instant & Sameday Delivery</span>
+    <span>•</span>
+    <span>🍰 Freshly Baked Daily</span>
+    <span>•</span>
+    <span>📍 Kirim dari Bekasi</span>
+  </div>
+
   <!-- KATALOG CONTAINER -->
   <main class="main-container" id="katalog-section">
     <div id="catalog-container">
@@ -335,24 +368,31 @@
 
       <div class="customer-input-group">
         <label for="customer-email">Email Pemesan:</label>
-        <input type="email" id="customer-email" placeholder="contoh: soreanbake@gmail.com - untuk info update"  required>
+        <input type="email" id="customer-email" placeholder="contoh: soreanbake@gmail.com" required>
       </div>
 
-      <div id="cart-items-list">
+      <div class="customer-input-group">
+        <label for="customer-note">Catatan Tambahan (Opsional):</label>
+        <input type="text" id="customer-note" placeholder="Contoh: Tulisan Ucapan / Tambah Lilin / Jam Kirim">
+      </div>
+
+      <div id="cart-items-list" style="margin-top: 10px;">
         <p style="text-align:center; color:#888;">Keranjang masih kosong.</p>
       </div>
 
+      <div class="cart-total" id="cart-total-price">Total: Rp 0</div>
+
+      <!-- BOX INFO METODE PEMBAYARAN -->
       <div class="payment-info-box">
         <div style="font-weight: bold; font-size: 0.8rem; color: #4a3b32; margin-bottom: 4px;">
-          💳 Metode Pembayaran :
+          💳 Metode Pembayaran Diterima:
         </div>
-        <div style="font-size: 0.75rem; color: #555; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <span>• 📱 QRIS </span>
+        <div style="font-size: 0.75rem; color: #555; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <span>• 📱 QRIS (BCA, GoPay, Dana, OVO, dll)</span>
           <span>• 🏦 Transfer Bank</span>
         </div>
       </div>
 
-      <div class="cart-total" id="cart-total-price">Total: Rp 0</div>
       <button class="btn-checkout" onclick="kirimWhatsApp()">Konfirmasi & Pesan via WA</button>
     </div>
   </div>
@@ -393,19 +433,19 @@
       { nama: "Fresh Fruit", harga: 8000 }
     ];
 
-    // FUNGSI KONVERSI GAMBAR (GOOGLE DRIVE, PATH LOKAL, ATAU URL DIRECT)
+    // FUNGSI KONVERSI GAMBAR GOOGLE DRIVE DAN PLACEHOLDER
     function formatUrlGambar(url) {
       if (!url || url.toString().trim() === "" || url === "null" || url === "undefined") {
         return 'https://placehold.co/400x300/4a3b32/ffffff?text=Sorean+Bake';
       }
       
-      // Jika berupa link Google Drive standar (file/d/FILE_ID)
+      url = url.toString().trim();
+
       if (url.includes('drive.google.com/file/d/')) {
         const fileId = url.split('/file/d/')[1].split('/')[0].split('?')[0];
         return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
       
-      // Jika berupa link uc/open Google Drive
       if (url.includes('drive.google.com/open') || url.includes('drive.google.com/uc')) {
         const match = url.match(/id=([a-zA-Z0-9_-]+)/);
         if (match && match[1]) {
@@ -413,7 +453,6 @@
         }
       }
 
-      // Jika path lokal/GitHub (misal: ./assets/...) atau URL gambar direct
       return url;
     }
 
@@ -452,8 +491,8 @@
           nama: row.nama,
           varian: row.varian,
           harga: Number(row.harga),
-          hargaCoret: row.harga_coret ? Number(row.harga_coret) : null, // Ambil harga_coret jika ada
-          img: formatUrlGambar(row.img) // Ditangani otomatis di sini
+          hargaCoret: row.harga_coret ? Number(row.harga_coret) : null,
+          img: formatUrlGambar(row.img)
         });
       });
 
@@ -480,16 +519,15 @@
           });
           toppingOptionsHtml += `</select>`;
 
-          // Tampilan Harga Normal vs Harga Coret
+          // Tampilan Harga Normal vs Harga Promo
           let priceHtml = '';
           if (item.hargaCoret && item.hargaCoret > item.harga) {
-            // Hitung persentase diskon
             const hematPct = Math.round(((item.hargaCoret - item.harga) / item.hargaCoret) * 100);
             priceHtml = `
               <div class="price-container">
                 <span class="product-price">Rp ${item.harga.toLocaleString('id-ID')}</span>
                 <span class="product-price-strike">Rp ${item.hargaCoret.toLocaleString('id-ID')}</span>
-                <span class="promo-badge">🔥 ${hematPct}%</span>
+                <span class="promo-badge">🔥 HEMAT ${hematPct}%</span>
               </div>
             `;
           } else {
@@ -616,6 +654,7 @@
 
       const namaPemesan = document.getElementById('customer-name').value.trim();
       const emailPemesan = document.getElementById('customer-email').value.trim();
+      const catatanPemesan = document.getElementById('customer-note').value.trim();
 
       if (!namaPemesan) {
         alert("Mohon isi 'Atas Nama Pemesan' terlebih dahulu!");
@@ -629,7 +668,7 @@
         return;
       }
 
-      // 1. Olah Data Per-Item untuk Backend Google Apps Script (Sheet Orders & Order Details)
+      // 1. Olah Data Per-Item untuk Backend Google Apps Script
       const payloadItems = keranjang.map(item => {
         let toppingName = "Tanpa Topping";
         let menuNameOnly = item.nama;
@@ -658,7 +697,7 @@
         };
       });
 
-      // 2. Send Data ke Apps Script di Latar Belakang
+      // 2. Kirim Data ke Google Apps Script di Latar Belakang
       try {
         fetch(WEB_APP_URL, {
           method: "POST",
@@ -667,6 +706,7 @@
           body: JSON.stringify({
             nama: namaPemesan,
             email: emailPemesan,
+            catatan: catatanPemesan || "-",
             items: payloadItems
           })
         });
@@ -677,8 +717,11 @@
       // 3. Format & Buka Chat WhatsApp
       let pesanWA = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut:%0A";
       pesanWA += `*Atas Nama:* ${encodeURIComponent(namaPemesan)}%0A`;
-      pesanWA += `*Email:* ${encodeURIComponent(emailPemesan)}%0A%0A`;
-      pesanWA += "*Detail Pesanan:*%0A";
+      pesanWA += `*Email:* ${encodeURIComponent(emailPemesan)}%0A`;
+      if (catatanPemesan) {
+        pesanWA += `*Catatan:* ${encodeURIComponent(catatanPemesan)}%0A`;
+      }
+      pesanWA += "%0A*Detail Pesanan:*%0A";
 
       let total = 0;
       keranjang.forEach(item => {
@@ -688,7 +731,7 @@
       });
 
       pesanWA += `%0A*Total Belanja :* Rp ${total.toLocaleString('id-ID')}`;
-      pesanWA += "%0A%0AMohon diinformasikan alur pembayaran dan pengirimannya. Terima kasih!";
+      pesanWA += "%0A%0AMohon diinformasikan alur pembayaran & rincian pengirimannya. Terima kasih!";
 
       window.open("https://wa.me/" + nomorWA + "?text=" + pesanWA, "_blank");
     }
