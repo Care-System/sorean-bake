@@ -176,6 +176,37 @@
   .product-title { font-size: 0.95rem; font-weight: bold; color: #333; margin-bottom: 4px; line-height: 1.2; }
   .product-variant { font-size: 0.8rem; color: #666; margin-bottom: 8px; font-weight: 500; }
   .product-price { color: #d32f2f; font-weight: bold; font-size: 0.95rem; margin-bottom: 10px; }
+
+  /* STYLING HARGA PROMO & CORET */
+  .price-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .product-price { 
+    color: #d32f2f; 
+    font-weight: bold; 
+    font-size: 1rem; 
+  }
+
+  .product-price-strike { 
+    color: #999; 
+    text-decoration: line-through; 
+    font-size: 0.85rem; 
+  }
+
+  .promo-badge {
+    background: #ffebee;
+    color: #c62828;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #ffcdd2;
+  }
   
   .topping-select { 
     width: 100%; 
@@ -409,6 +440,7 @@
           nama: row.nama,
           varian: row.varian,
           harga: Number(row.harga),
+          hargaCoret: row.harga_coret ? Number(row.harga_coret) : null, // Ambil harga_coret jika ada
           img: formatUrlGambar(row.img) // Ditangani otomatis di sini
         });
       });
@@ -435,6 +467,26 @@
             toppingOptionsHtml += `<option value="${index}">${top.nama}${labelHarga}</option>`;
           });
           toppingOptionsHtml += `</select>`;
+
+          // Tampilan Harga Normal vs Harga Coret
+          let priceHtml = '';
+          if (item.hargaCoret && item.hargaCoret > item.harga) {
+            // Hitung persentase diskon
+            const hematPct = Math.round(((item.hargaCoret - item.harga) / item.hargaCoret) * 100);
+            priceHtml = `
+              <div class="price-container">
+                <span class="product-price">Rp ${item.harga.toLocaleString('id-ID')}</span>
+                <span class="product-price-strike">Rp ${item.hargaCoret.toLocaleString('id-ID')}</span>
+                <span class="promo-badge">DISKON ${hematPct}%</span>
+              </div>
+            `;
+          } else {
+            priceHtml = `
+              <div class="price-container">
+                <span class="product-price">Rp ${item.harga.toLocaleString('id-ID')}</span>
+              </div>
+            `;
+          }
 
           categoryHtml += `
             <div class="product-card">
