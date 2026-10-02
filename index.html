@@ -278,27 +278,80 @@
   .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 12px; color: #d32f2f; }
   .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 12px; cursor: pointer; font-size: 0.95rem; }
 
-  /* FOOTER */
+  /* FOOTER DENGAN MULTI-KOLOM MODERN */
   footer { 
-    background-color: #4a3b32; 
+    background-color: #3e312a; 
     color: #f0e6df; 
-    padding: 20px; 
-    margin-top: 30px;
+    padding: 30px 20px 15px 20px; 
+    margin-top: 40px;
     font-size: 0.85rem; 
   }
+
   .footer-container { 
     max-width: 1140px;
     margin: 0 auto;
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    flex-wrap: wrap; 
-    gap: 15px; 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    padding-bottom: 20px;
   }
-  .footer-brand { font-weight: bold; font-size: 1rem; color: #fff; margin-bottom: 2px; }
-  .footer-links a { color: #d7ccc8; text-decoration: none; margin-left: 12px; font-size: 0.85rem; }
-  .footer-links a:hover { color: #fff; }
-  .footer-copy { text-align: center; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; margin-top: 12px; font-size: 0.75rem; color: #bcaaa4; }
+
+  .footer-brand { 
+    font-weight: bold; 
+    font-size: 1.15rem; 
+    color: #fff; 
+    margin-bottom: 6px; 
+  }
+
+  .footer-desc {
+    color: #d7ccc8;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .footer-title {
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  .footer-text {
+    color: #d7ccc8;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+  }
+
+  .footer-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .footer-socials a {
+    color: #d7ccc8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-socials a:hover {
+    color: #fff;
+  }
+
+  .footer-copy { 
+    text-align: center; 
+    width: 100%; 
+    max-width: 1140px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.1); 
+    padding-top: 15px; 
+    font-size: 0.75rem; 
+    color: #bcaaa4; 
+  }
 
   @media (max-width: 600px) {
     .nav-menu { display: none; }
@@ -400,17 +453,33 @@
   <!-- FOOTER -->
   <footer id="contact-section">
     <div class="footer-container">
-      <div class="footer-info">
+      
+      <!-- Kolom 1: Brand & Tagline -->
+      <div class="footer-col">
         <div class="footer-brand">Sorean Bake</div>
-        <div>Order Online via WhatsApp & Terintegrasi Otomatis</div>
+        <p class="footer-desc">Freshly Baked Fudgy Brownies & Basque Cheesecake olahan rumahan buatan tangan terbaik.</p>
       </div>
-      <div class="footer-links">
-        <a href="https://wa.me/6287889667929/" target="_blank">💬 WhatsApp</a>
-        <a href="https://www.instagram.com/soreanbake/" target="_blank">📷 Instagram</a>
+
+      <!-- Kolom 2: Jam Operasional & Lokasi -->
+      <div class="footer-col">
+        <div class="footer-title">Jam Operasional & Kirim</div>
+        <p class="footer-text">🕒 Senin - Sabtu: 08.00 - 17.00 WIB</p>
+        <p class="footer-text">📍 Pengiriman dari Bekasi</p>
       </div>
-      <div class="footer-copy">
-        &copy; 2026 Sorean Bake. All Rights Reserved.
+
+      <!-- Kolom 3: Kontak & Sosmed -->
+      <div class="footer-col">
+        <div class="footer-title">Hubungi Kami</div>
+        <div class="footer-socials">
+          <a href="https://wa.me/6287889667929/" target="_blank">💬 WhatsApp</a>
+          <a href="https://www.instagram.com/soreanbake/" target="_blank">📷 Instagram</a>
+        </div>
       </div>
+
+    </div>
+
+    <div class="footer-copy">
+      &copy; 2026 Sorean Bake. All Rights Reserved.
     </div>
   </footer>
 
