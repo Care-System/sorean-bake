@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sorean Bake - Freshly Baked Brownies & Cheesecakes</title>
+  
   <!-- Favicon dari Google Drive -->
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1kCMD4dRauKChB1dbWWbTsvKD41rCFAdd">
   
@@ -91,7 +92,7 @@
     gap: 6px; 
     border: 1px solid #a5d6a7; 
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    width: auto !important; /* Mencegah tombol memanjang */
+    width: auto !important;
     white-space: nowrap;
     transition: background 0.2s, transform 0.1s;
   }
@@ -249,7 +250,7 @@
     .nav-menu { display: none; }
     .hero-banner h1 { font-size: 1.4rem; }
   }
-</style>
+  </style>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 </head>
@@ -351,6 +352,28 @@
       { nama: "Fresh Fruit", harga: 8000 }
     ];
 
+    // FUNGSI KONVERSI GAMBAR (GOOGLE DRIVE, PATH LOKAL, ATAU URL DIRECT)
+    function formatUrlGambar(url) {
+      if (!url) return 'https://via.placeholder.com/300x200?text=No+Image';
+      
+      // Jika berupa link Google Drive standar (file/d/FILE_ID)
+      if (url.includes('drive.google.com/file/d/')) {
+        const fileId = url.split('/file/d/')[1].split('/')[0].split('?')[0];
+        return `https://lh3.googleusercontent.com/d/${fileId}`;
+      }
+      
+      // Jika berupa link uc/open Google Drive
+      if (url.includes('drive.google.com/open') || url.includes('drive.google.com/uc')) {
+        const match = url.match(/id=([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          return `https://lh3.googleusercontent.com/d/${match[1]}`;
+        }
+      }
+
+      // Jika path lokal/GitHub (misal: ./assets/...) atau URL gambar direct
+      return url;
+    }
+
     async function loadDataDariGoogleSheets() {
       try {
         const response = await fetch(URL_GOOGLE_SHEETS);
@@ -386,7 +409,7 @@
           nama: row.nama,
           varian: row.varian,
           harga: Number(row.harga),
-          img: row.img
+          img: formatUrlGambar(row.img) // Ditangani otomatis di sini
         });
       });
 
