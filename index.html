@@ -397,30 +397,33 @@
   .section-title { text-align: center; color: #4a3b32; font-size: 1.5rem; font-weight: bold; margin-bottom: 6px; }
   .section-subtitle { text-align: center; color: #666; font-size: 0.88rem; margin-bottom: 25px; }
 
+  /* STYLING MULTI-ITEM SLIDER RESPONSIVE */
   .slider-wrapper {
     position: relative;
     overflow: hidden;
-    max-width: 350px; /* Lebar proporsional seperti Story IG */
+    max-width: 1140px; /* Lebar maksimal mengikuti container desktop */
     margin: 0 auto;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    background: #4a3b32;
+    padding: 10px 0;
   }
 
   .slides-container {
     display: flex;
+    gap: 15px; /* Jarak antar slide */
     transition: transform 0.4s ease-in-out;
   }
 
   .slide-item {
-    min-width: 100%;
+    /* Default Desktop: 4 gambar sejajar (100% / 4 minus gap) */
+    flex: 0 0 calc(25% - 11.25px); 
     box-sizing: border-box;
   }
 
   .slide-item img {
     width: 100%;
-    height: 480px;
+    height: 380px;
     object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: block;
   }
 
@@ -428,20 +431,43 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(74, 59, 50, 0.7);
+    background: rgba(74, 59, 50, 0.85);
     color: #fff;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     padding: 10px 14px;
     cursor: pointer;
     border-radius: 50%;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
     z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
 
-  .slider-btn:hover { background: rgba(74, 59, 50, 0.95); }
-  .prev-btn { left: 10px; }
-  .next-btn { right: 10px; }
+  .slider-btn:hover { 
+    background: #332822; 
+    transform: translateY(-50%) scale(1.08); 
+  }
+
+  .prev-btn { left: -5px; }
+  .next-btn { right: -5px; }
+
+  /* BREAKPOINT RESPONSIVE (HP & TABLET) */
+  @media (max-width: 900px) {
+    .slide-item {
+      /* Tablet: 2 gambar sejajar */
+      flex: 0 0 calc(50% - 7.5px); 
+    }
+  }
+
+  @media (max-width: 600px) {
+    .slide-item {
+      /* Mobile HP: 1 gambar utuh */
+      flex: 0 0 100%; 
+    }
+    .slider-wrapper {
+      max-width: 320px; /* Ukuran pas di HP */
+    }
+  }
 
   .ig-highlight-link {
     display: inline-flex;
@@ -479,7 +505,7 @@
       <ul class="nav-menu">
         <li><a href="#">Home</a></li>
         <li><a href="#katalog-section">Menu</a></li>
-        <li><a href="#review-section">Reviews</a><li>
+        <li><a href="#review-section">Reviews</a></li>
         <li><a href="#contact-section">Contact Us</a></li>
       </ul>
 
@@ -950,15 +976,21 @@
     let currentSlideIndex = 0;
     let totalSlides = 0;
 
+    function getVisibleSlidesCount() {
+      const width = window.innerWidth;
+      if (width <= 600) return 1; // HP
+      if (width <= 900) return 2; // Tablet
+      return 4; // Desktop
+    }
+
     async function loadTestimoniDariDrive() {
       const container = document.getElementById('slidesContainer');
       try {
-        // Memanggil Web App Apps Script (metode GET)
         const response = await fetch(WEB_APP_URL);
         const imageList = await response.json();
 
         if (!imageList || imageList.length === 0 || imageList.error) {
-          container.innerHTML = '<p style="text-align:center; padding: 40px; color:#fff; width:100%;">Belum ada testimoni.</p>';
+          container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; width:100%;">Belum ada testimoni.</p>';
           return;
         }
 
@@ -973,14 +1005,14 @@
 
         totalSlides = imageList.length;
         
-        // Timer auto-slide berganti setiap 4 detik
+        // Auto slide bergeser setiap 4 detik
         setInterval(() => {
           moveSlide(1);
         }, 4000);
 
       } catch (err) {
         console.error("Gagal memuat testimoni:", err);
-        container.innerHTML = '<p style="text-align:center; padding: 40px; color:#fff; width:100%;">Gagal memuat testimoni.</p>';
+        container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; width:100%;">Gagal memuat testimoni.</p>';
       }
     }
 
@@ -988,21 +1020,34 @@
       const container = document.getElementById('slidesContainer');
       if (totalSlides === 0) return;
 
-      if (index >= totalSlides) {
-        currentSlideIndex = 0;
+      const visibleSlides = getVisibleSlidesCount();
+      const maxIndex = Math.max(0, totalSlides - visibleSlides);
+
+      if (index > maxIndex) {
+        currentSlideIndex = 0; // Kembali ke awal jika sudah di ujung
       } else if (index < 0) {
-        currentSlideIndex = totalSlides - 1;
+        currentSlideIndex = maxIndex;
       } else {
         currentSlideIndex = index;
       }
-      container.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+      // Hitung persentase pergeseran berdasarkan lebar item + gap
+      const slideItem = container.querySelector('.slide-item');
+      if (slideItem) {
+        const itemWidth = slideItem.offsetWidth + 15; // 15px adalah gap
+        container.style.transform = `translateX(-${currentSlideIndex * itemWidth}px)`;
+      }
     }
 
     function moveSlide(direction) {
       showSlide(currentSlideIndex + direction);
     }
 
-    // Panggil fungsi pemuat testimoni saat halaman dibuka
+    // Penyesuaian saat layar di-resize
+    window.addEventListener('resize', () => {
+      showSlide(currentSlideIndex);
+    });
+
     loadTestimoniDariDrive();
   </script>
 </body>
