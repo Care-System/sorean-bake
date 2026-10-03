@@ -379,6 +379,89 @@
     .hero-banner h1 { font-size: 1.4rem; }
     .info-bar { font-size: 0.75rem; gap: 8px; }
   }
+
+  /* STYLING TESTIMONIAL SLIDER DINAMIS DRIVE  */
+  .review-section {
+    background: #f4ece6;
+    padding: 40px 20px;
+    margin-top: 30px;
+    border-top: 1px solid #e0d5ce;
+    border-bottom: 1px solid #e0d5ce;
+  }
+
+  .review-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-title { text-align: center; color: #4a3b32; font-size: 1.5rem; font-weight: bold; margin-bottom: 6px; }
+  .section-subtitle { text-align: center; color: #666; font-size: 0.88rem; margin-bottom: 25px; }
+
+  .slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    max-width: 350px; /* Lebar proporsional seperti Story IG */
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    background: #4a3b32;
+  }
+
+  .slides-container {
+    display: flex;
+    transition: transform 0.4s ease-in-out;
+  }
+
+  .slide-item {
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .slide-item img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(74, 59, 50, 0.7);
+    color: #fff;
+    border: none;
+    font-size: 1.2rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.2s;
+    z-index: 10;
+  }
+
+  .slider-btn:hover { background: rgba(74, 59, 50, 0.95); }
+  .prev-btn { left: 10px; }
+  .next-btn { right: 10px; }
+
+  .ig-highlight-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #4a3b32;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-decoration: none;
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #d7ccc8;
+    transition: all 0.2s;
+  }
+
+  .ig-highlight-link:hover {
+    background: #4a3b32;
+    color: #fff;
+  }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
@@ -396,6 +479,7 @@
       <ul class="nav-menu">
         <li><a href="#">Home</a></li>
         <li><a href="#katalog-section">Menu</a></li>
+        <li><a href="#review-section">Reviews</a><li>
         <li><a href="#contact-section">Contact Us</a></li>
       </ul>
 
@@ -470,6 +554,32 @@
       <button class="btn-checkout" onclick="kirimWhatsApp()">Konfirmasi & Pesan via WA</button>
     </div>
   </div>
+
+  <!-- SECTION TESTIMONI SLIDER (OTOMATIS DARI GOOGLE DRIVE) -->
+  <section class="review-section" id="review-section">
+    <div class="review-container">
+      <h2 class="section-title">Testimoni Pelanggan 💬✨</h2>
+      <p class="section-subtitle">Real feedback & cerita manis dari penikmat Sorean Bake</p>
+
+      <!-- CONTAINER CAROUSEL -->
+      <div class="slider-wrapper">
+        <div class="slides-container" id="slidesContainer">
+          <p style="text-align:center; padding: 40px; color:#fff; width:100%;">Memuat testimoni terbaru...</p>
+        </div>
+
+        <!-- Tombol Navigasi Kiri & Kanan -->
+        <button class="slider-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="slider-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
+      </div>
+
+      <!-- Link opsional ke Highlight Instagram -->
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="https://www.instagram.com/stories/highlights/18090714716126182/" target="_blank" class="ig-highlight-link">
+          <i class="fa-brands fa-instagram"></i> Lihat Highlight Instagram Sorean Bake
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer id="contact-section">
@@ -835,6 +945,65 @@
     }
 
     loadDataDariGoogleSheets();
+
+    // LOGIKA SLIDER TESTIMONI GOOGLE DRIVE
+    let currentSlideIndex = 0;
+    let totalSlides = 0;
+
+    async function loadTestimoniDariDrive() {
+      const container = document.getElementById('slidesContainer');
+      try {
+        // Memanggil Web App Apps Script (metode GET)
+        const response = await fetch(WEB_APP_URL);
+        const imageList = await response.json();
+
+        if (!imageList || imageList.length === 0 || imageList.error) {
+          container.innerHTML = '<p style="text-align:center; padding: 40px; color:#fff; width:100%;">Belum ada testimoni.</p>';
+          return;
+        }
+
+        container.innerHTML = '';
+        imageList.forEach(imgUrl => {
+          container.innerHTML += `
+            <div class="slide-item">
+              <img src="${imgUrl}" alt="Testimoni Sorean Bake">
+            </div>
+          `;
+        });
+
+        totalSlides = imageList.length;
+        
+        // Timer auto-slide berganti setiap 4 detik
+        setInterval(() => {
+          moveSlide(1);
+        }, 4000);
+
+      } catch (err) {
+        console.error("Gagal memuat testimoni:", err);
+        container.innerHTML = '<p style="text-align:center; padding: 40px; color:#fff; width:100%;">Gagal memuat testimoni.</p>';
+      }
+    }
+
+    function showSlide(index) {
+      const container = document.getElementById('slidesContainer');
+      if (totalSlides === 0) return;
+
+      if (index >= totalSlides) {
+        currentSlideIndex = 0;
+      } else if (index < 0) {
+        currentSlideIndex = totalSlides - 1;
+      } else {
+        currentSlideIndex = index;
+      }
+      container.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+    }
+
+    function moveSlide(direction) {
+      showSlide(currentSlideIndex + direction);
+    }
+
+    // Panggil fungsi pemuat testimoni saat halaman dibuka
+    loadTestimoniDariDrive();
   </script>
 </body>
 </html>
