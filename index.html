@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <!-- Structured Data untuk Nama Situs di Google Search -->
   <script type="application/ld+json">
   {
@@ -13,7 +14,7 @@
     "url": "https://care-system.github.io/sorean-bake/"
   }
   </script>
-  
+
   <!-- 1. Title Utama (Optimasi SEO Lokal & Brand) -->
   <title>Sorean Bake | Fudgy Brownies & Basque Cheesecake Premium Bekasi</title>
   
@@ -786,16 +787,17 @@
       
       url = url.toString().trim();
 
+      let fileId = "";
       if (url.includes('drive.google.com/file/d/')) {
-        const fileId = url.split('/file/d/')[1].split('/')[0].split('?')[0];
-        return `https://lh3.googleusercontent.com/d/${fileId}`;
-      }
-      
-      if (url.includes('drive.google.com/open') || url.includes('drive.google.com/uc')) {
+        fileId = url.split('/file/d/')[1].split('/')[0].split('?')[0];
+      } else if (url.includes('drive.google.com/open') || url.includes('drive.google.com/uc')) {
         const match = url.match(/id=([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-          return `https://lh3.googleusercontent.com/d/${match[1]}`;
-        }
+        if (match && match[1]) fileId = match[1];
+      }
+
+      if (fileId) {
+        // Format CDN Gambar Google yang Asli & Cepat
+        return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
 
       return url;
@@ -887,7 +889,7 @@
             <div class="product-card">
               <div>
                 <!-- TAMBAHKAN ONCLICK DAN CURSOR POINTER DI SINI -->
-                <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')">
+                <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')" onerror="this.onerror=null; this.src='https://placehold.co/400x300/4a3b32/ffffff?text=Sorean+Bake';">
                 <div class="product-title">${item.nama}</div>
                 <div class="product-variant">${item.varian}</div>
                 ${priceHtml}
