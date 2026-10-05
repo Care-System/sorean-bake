@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Structured Data untuk Nama Situs di Google Search -->
   <script type="application/ld+json">
   {
@@ -1177,6 +1177,25 @@
     function closeImageModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
+
+    function handleImageError(imgElem) {
+      // Jika gagal via proxy/drive, ganti ke placeholder dengan rapi
+      imgElem.onerror = null;
+      imgElem.src = 'https://placehold.co/400x300/4a3b32/ffffff?text=Sorean+Bake';
+    }
+
+    // Cek otomatis jika ada gambar yang menggantung (pending/stuck) di browser tertentu
+    setInterval(() => {
+      document.querySelectorAll('.product-card img, .slide-item img').forEach(img => {
+        if (!img.dataset.loaded && (!img.complete || img.naturalWidth === 0)) {
+          // Jika lebih dari 3 detik tidak terload, pemicu error dialihkan
+          if (!img.dataset.retry) {
+            img.dataset.retry = "true";
+            handleImageError(img);
+          }
+        }
+      });
+    }, 3000);
   </script>
 </body>
 </html>
