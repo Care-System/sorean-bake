@@ -463,6 +463,11 @@
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     display: block;
+    transition: transform 0.2s ease;
+  }
+
+  .slide-item img:hover {
+    transform: scale(1.03);
   }
 
   /* TOMBOL NAVIGASI DILUAR / DI UJUNG KARTU */
@@ -531,12 +536,12 @@
     background: #4a3b32;
     color: #fff;
   }
+
   /* STYLING LIGHTBOX FULL SIZE IMAGE */
   .image-modal {
     display: none; 
     position: fixed; 
     z-index: 9999; 
-    padding-top: 40px; 
     left: 0;
     top: 0;
     width: 100%; 
@@ -727,7 +732,6 @@
           <a href="https://www.threads.net/@soreanbake" target="_blank" class="social-link threads">
             <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Threads_%28app%29_logo.svg" alt="Threads" style="width: 18px; height: 18px; filter: invert(90%); vertical-align: middle;"> Threads
           </a>
-
         </div>
       </div>
 
@@ -737,6 +741,12 @@
       &copy; 2026 Sorean Bake. All Rights Reserved.
     </div>
   </footer>
+
+  <!-- MODAL LIGHTBOX UNTUK PRATINJAU GAMBAR FULL SIZE -->
+  <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="imgModalFull">
+  </div>
 
   <script>
     const nomorWA = "6287889667929";
@@ -1089,7 +1099,7 @@
         imageList.forEach(imgUrl => {
           container.innerHTML += `
             <div class="slide-item">
-              <img src="${imgUrl}" alt="Testimoni Sorean Bake">
+              <img src="${imgUrl}" alt="Testimoni Sorean Bake" style="cursor: pointer;" onclick="openImageModal('${imgUrl}')">
             </div>
           `;
         });
@@ -1154,11 +1164,5 @@
       document.getElementById('imageModal').style.display = 'none';
     }
   </script>
-
-  <!-- MODAL LIGHTBOX UNTUK PRATINJAU GAMBAR FULL SIZE -->
-  <div id="imageModal" class="image-modal" onclick="closeImageModal()">
-    <span class="close-modal">&times;</span>
-    <img class="modal-content" id="imgModalFull">
-  </div>
 </body>
 </html>
