@@ -780,9 +780,12 @@
     ];
 
     // FUNGSI KONVERSI GAMBAR GOOGLE DRIVE DAN PLACEHOLDER
+    // GAMBAR PLACEHOLDER HARDCODE MURNI (SVG BASE64) - TANPA DEPENDENCY LUAR
+    const PLACEHOLDER_HARDCODE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='100%' height='100%' fill='%234a3b32'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI, sans-serif' font-size='26' font-weight='bold' fill='%23ffffff'>Sorean Bake</text></svg>";
+
     function formatUrlGambar(url) {
       if (!url || url.toString().trim() === "" || url === "null" || url === "undefined") {
-        return 'https://placehold.co/400x300/4a3b32/ffffff?text=Sorean+Bake';
+        return PLACEHOLDER_HARDCODE; // Gunakan hardcode lokal jika link kosong
       }
       
       url = url.toString().trim();
@@ -796,12 +799,16 @@
       }
 
       if (fileId) {
-        // Lewatkan lewat Proxy wsrv.nl agar Lolos dari Blokir Cookie/Sesi Akun Google Browser
-        const directDriveUrl = `https://lh3.googleusercontent.com/d/${fileId}`;
-        return `https://wsrv.nl/?url=${encodeURIComponent(directDriveUrl)}&output=webp`;
+        return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
 
       return url;
+    }
+
+    // FUNGSI ERROR HANDLING DENGAN FALLBACK HARDCODE MURNI
+    function handleImageError(imgElem) {
+      imgElem.onerror = null; // Mencegah looping infinite error
+      imgElem.src = PLACEHOLDER_HARDCODE; // Tampilkan banner cokelat Sorean Bake lokal
     }
 
     async function loadDataDariGoogleSheets() {
@@ -890,7 +897,7 @@
             <div class="product-card">
               <div>
                 <!-- TAMBAHKAN ONCLICK DAN CURSOR POINTER DI SINI -->
-                <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')" onload="this.dataset.loaded='true'" onerror="handleImageError(this)">
+                <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')" onerror="handleImageError(this)">
                 <div class="product-title">${item.nama}</div>
                 <div class="product-variant">${item.varian}</div>
                 ${priceHtml}
