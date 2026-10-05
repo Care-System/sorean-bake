@@ -875,7 +875,8 @@
           categoryHtml += `
             <div class="product-card">
               <div>
-                <img src="${item.img}" alt="${item.nama}">
+                <!-- TAMBAHKAN ONCLICK DAN CURSOR POINTER DI SINI -->
+                <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')">
                 <div class="product-title">${item.nama}</div>
                 <div class="product-variant">${item.varian}</div>
                 ${priceHtml}
