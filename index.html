@@ -1076,6 +1076,7 @@
     // LOGIKA SLIDER TESTIMONI GOOGLE DRIVE
     let currentSlideIndex = 0;
     let totalSlides = 0;
+    let autoSlideInterval = null;
 
     function getVisibleSlidesCount() {
       const width = window.innerWidth;
@@ -1097,6 +1098,8 @@
         }
 
         container.innerHTML = '';
+        
+        // Render item asli
         imageList.forEach(imgUrl => {
           container.innerHTML += `
             <div class="slide-item">
@@ -1105,12 +1108,19 @@
           `;
         });
 
+        // Clone item untuk membuat efek infinite seamless scroll
+        imageList.forEach(imgUrl => {
+          container.innerHTML += `
+            <div class="slide-item clone">
+              <img src="${imgUrl}" alt="Testimoni Sorean Bake" style="cursor: pointer;" onclick="openImageModal('${imgUrl}')">
+            </div>
+          `;
+        });
+
         totalSlides = imageList.length;
         
-        // Auto slide bergeser otomatis setiap 4 detik
-        setInterval(() => {
-          moveSlide(1);
-        }, 4000);
+        // Start Auto Slide
+        startAutoSlide();
 
       } catch (err) {
         console.error("Gagal memuat testimoni:", err);
@@ -1118,25 +1128,41 @@
       }
     }
 
+    function startAutoSlide() {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+      autoSlideInterval = setInterval(() => {
+        moveSlide(1);
+      }, 3500);
+    }
+
     function showSlide(index) {
       const container = document.getElementById('slidesContainer');
       if (totalSlides === 0) return;
 
-      const visibleSlides = getVisibleSlidesCount();
-      const maxIndex = Math.max(0, totalSlides - visibleSlides);
-
-      if (index > maxIndex) {
-        currentSlideIndex = 0; // Balik ke awal
-      } else if (index < 0) {
-        currentSlideIndex = maxIndex;
-      } else {
-        currentSlideIndex = index;
-      }
-
+      currentSlideIndex = index;
       const slideItem = container.querySelector('.slide-item');
-      if (slideItem) {
-        const itemWidth = slideItem.offsetWidth + 15; // 15px adalah gap antar item
-        container.style.transform = `translateX(-${currentSlideIndex * itemWidth}px)`;
+      if (!slideItem) return;
+
+      const itemWidth = slideItem.offsetWidth + 15; // 15px gap
+      
+      // Terapkan transisi pergeseran
+      container.style.transition = "transform 0.4s ease-in-out";
+      container.style.transform = `translateX(-${currentSlideIndex * itemWidth}px)`;
+
+      // Reset ke awal secara halus tanpa animasi saat sudah mencapai clone terakhir
+      if (currentSlideIndex >= totalSlides) {
+        setTimeout(() => {
+          container.style.transition = "none"; // Matikan transisi sekejap
+          currentSlideIndex = 0;
+          container.style.transform = `translateX(0px)`;
+        }, 400); // 400ms sesuai durasi transisi
+      } 
+      else if (currentSlideIndex < 0) {
+        setTimeout(() => {
+          container.style.transition = "none";
+          currentSlideIndex = totalSlides - 1;
+          container.style.transform = `translateX(-${currentSlideIndex * itemWidth}px)`;
+        }, 400);
       }
     }
 
