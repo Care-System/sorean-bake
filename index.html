@@ -318,7 +318,7 @@
   .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 12px; color: #d32f2f; }
   .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 12px; cursor: pointer; font-size: 0.95rem; }
 
-  /* SECTION GALERI FOTO (MASONRY GRID UKURAN BESAR) */
+  /* SECTION GALERI VERTICAL SLIDESHOW (2 KOLOM MELUNCUR) */
   .gallery-section {
     padding: 50px 0;
     background-color: #faf6f0;
@@ -331,26 +331,46 @@
     padding: 0 20px;
   }
 
-  .gallery-masonry {
-    column-count: 3; /* 3 Kolom di Desktop */
-    column-gap: 20px;
+  /* CONTAINER BATAS TINGGI AREA SLIDESHOW VERTIKAL */
+  .gallery-slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 600px; /* Tinggi area galeri yang tampil di layar */
+    width: 100%;
+    margin: 0 auto;
+    /* Masking pudar di bagian atas & bawah agar estetik */
+    mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+  }
+
+  /* GRID 2 KOLOM YANG BERGERAK VERTIKAL */
+  .gallery-vertical-track {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 Kolom Sejajar */
+    gap: 20px;
+    /* Animasi meluncur dari atas ke bawah */
+    animation: scrollVertical 30s linear infinite;
+  }
+
+  /* Pause saat kursor di-hover agar gambar gampang diklik */
+  .gallery-slider-wrapper:hover .gallery-vertical-track {
+    animation-play-state: paused;
   }
 
   .gallery-item {
-    break-inside: avoid;
-    margin-bottom: 20px;
     position: relative;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 6px 16px rgba(0,0,0,0.08);
     background: #4a3b32;
     cursor: pointer;
+    height: 280px; /* Tinggi konsisten per kartu galeri */
   }
 
   .gallery-item img {
     width: 100%;
-    height: auto;
-    min-height: 250px;
+    height: 100%;
+    object-fit: cover;
     display: block;
     border-radius: 16px;
     transition: transform 0.4s ease, opacity 0.4s ease;
@@ -395,6 +415,29 @@
 
   .gallery-item:hover .gallery-overlay span {
     transform: translateY(0);
+  }
+
+  /* KEYFRAMES SLIDESHOW DARI ATAS KE BAWAH */
+  @keyframes scrollVertical {
+    0% {
+      transform: translateY(-50%); /* Mulai dari posisi atas */
+    }
+    100% {
+      transform: translateY(0); /* Meluncur turun ke bawah secara seamless */
+    }
+  }
+
+  /* RESPONSIVE UNTUK HP */
+  @media (max-width: 600px) {
+    .gallery-slider-wrapper {
+      height: 480px;
+    }
+    .gallery-vertical-track {
+      gap: 12px;
+    }
+    .gallery-item {
+      height: 200px;
+    }
   }
 
   /* STYLING TESTIMONIAL SLIDER SEAMLESS SMOOTH */
@@ -727,8 +770,10 @@
       <h2 class="section-title">Koleksi & Portofolio Pesanan 📸✨</h2>
       <p class="section-subtitle">Tangkapan momen dan kreasi manis dari dapur Sorean Bake</p>
 
-      <div class="gallery-masonry" id="galleryContainer">
-        <p style="text-align:center; padding: 40px; color:#666; column-span: all;">Memuat galeri foto...</p>
+      <div class="gallery-slider-wrapper">
+        <div class="gallery-vertical-track" id="galleryContainer">
+          <p style="text-align:center; padding: 40px; color:#666; grid-column: span 2;">Memuat galeri foto...</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1154,16 +1199,16 @@
         const imageList = await response.json();
 
         if (!imageList || imageList.length === 0 || imageList.error) {
-          container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; column-span: all;">Belum ada foto galeri.</p>';
+          container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; grid-column: span 2;">Belum ada foto galeri.</p>';
           return;
         }
 
         container.innerHTML = '';
-        let html = '';
+        let itemsHtml = '';
 
         imageList.forEach((imgUrl, index) => {
           const srcGambar = formatUrlGambar(imgUrl);
-          html += `
+          itemsHtml += `
             <div class="gallery-item" onclick="openImageModal('${srcGambar}')">
               <img src="${srcGambar}" alt="Momen Sorean Bake ${index + 1}" onerror="handleImageError(this)">
               <div class="gallery-overlay">
@@ -1173,11 +1218,12 @@
           `;
         });
 
-        container.innerHTML = html;
+        // SET PERTAMA + DUPLIKAT (PENTING AGAR LOOPING VERTIKAL MULUS 100%)
+        container.innerHTML = itemsHtml + itemsHtml;
 
       } catch (err) {
         console.error("Gagal memuat galeri:", err);
-        container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; column-span: all;">Gagal memuat galeri foto.</p>';
+        container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; grid-column: span 2;">Gagal memuat galeri foto.</p>';
       }
     }
 
