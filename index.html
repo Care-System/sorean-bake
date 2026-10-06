@@ -335,7 +335,7 @@
   .gallery-slider-wrapper {
     position: relative;
     overflow: hidden;
-    height: 600px; /* Tinggi area galeri yang tampil di layar */
+    height: 850; /* Tinggi area galeri yang tampil di layar */
     width: 100%;
     margin: 0 auto;
     /* Masking pudar di bagian atas & bawah agar estetik */
@@ -427,16 +427,22 @@
     }
   }
 
-  /* RESPONSIVE UNTUK HP */
+  /* RESPONSIVE UNTUK HP & TABLET */
+  @media (max-width: 900px) {
+    .gallery-slider-wrapper {
+      height: 700px; /* Tetap proporsional & tinggi di layar tablet */
+    }
+  }
+
   @media (max-width: 600px) {
     .gallery-slider-wrapper {
-      height: 480px;
+      height: 550px; /* Cukup tinggi untuk tampilan layar HP */
     }
     .gallery-vertical-track {
       gap: 12px;
     }
     .gallery-item {
-      height: 200px;
+      height: 220px; /* Kartu disesuaikan agar tidak terlalu memakan layar HP */
     }
   }
 
