@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Structured Data untuk Nama Situs di Google Search -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Sorean Bake",
+    "alternateName": "SoreanBake",
+    "url": "https://care-system.github.io/sorean-bake/"
+  }
+  </script>
+
   <!-- 1. Title Utama (Optimasi SEO Lokal & Brand) -->
   <title>Sorean Bake | Fudgy Brownies & Basque Cheesecake Premium Bekasi</title>
   
   <!-- 2. Meta Tags Dasar untuk Mesin Pencari (Googlebot) -->
   <meta name="description" content="Nikmati kelezatan Fudgy Brownies & Basque Burnt Cheesecake homemade dari Sorean Bake. Freshly baked daily, siap kirim dari Bekasi via Instant & Sameday.">
-  <meta name="keywords" content="brownies bekasi, basque cheesecake bekasi, fudgy brownies, toko kue bekasi, sorean bake, burnt cheesecake, kue rumahan bekasi, toko kue jatibening, sorean bake jatibening, burnt cheesecake bekasi, burnt cheesecake jatibening">
+  <meta name="keywords" content="brownies bekasi, basque cheesecake bekasi, fudgy brownies, toko kue bekasi, sorean bake, burnt cheesecake, kue rumahan bekasi, toko kue jatibening, sorean bake jatibening, burnt cheesecake bekasi, burnt cheesecake jatibening, soreanbake,">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Sorean Bake">
   
@@ -768,26 +780,35 @@
     ];
 
     // FUNGSI KONVERSI GAMBAR GOOGLE DRIVE DAN PLACEHOLDER
+    // GAMBAR PLACEHOLDER HARDCODE MURNI (SVG BASE64) - TANPA DEPENDENCY LUAR
+    const PLACEHOLDER_HARDCODE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='100%' height='100%' fill='%234a3b32'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI, sans-serif' font-size='26' font-weight='bold' fill='%23ffffff'>Sorean Bake</text></svg>";
+
     function formatUrlGambar(url) {
       if (!url || url.toString().trim() === "" || url === "null" || url === "undefined") {
-        return 'https://placehold.co/400x300/4a3b32/ffffff?text=Sorean+Bake';
+        return PLACEHOLDER_HARDCODE; // Gunakan hardcode lokal jika link kosong
       }
       
       url = url.toString().trim();
 
+      let fileId = "";
       if (url.includes('drive.google.com/file/d/')) {
-        const fileId = url.split('/file/d/')[1].split('/')[0].split('?')[0];
-        return `https://lh3.googleusercontent.com/d/${fileId}`;
-      }
-      
-      if (url.includes('drive.google.com/open') || url.includes('drive.google.com/uc')) {
+        fileId = url.split('/file/d/')[1].split('/')[0].split('?')[0];
+      } else if (url.includes('drive.google.com/open') || url.includes('drive.google.com/uc') || url.includes('id=')) {
         const match = url.match(/id=([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-          return `https://lh3.googleusercontent.com/d/${match[1]}`;
-        }
+        if (match && match[1]) fileId = match[1];
+      }
+
+      if (fileId) {
+        return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
 
       return url;
+    }
+
+    // FUNGSI ERROR HANDLING DENGAN FALLBACK HARDCODE MURNI
+    function handleImageError(imgElem) {
+      imgElem.onerror = null; // Mencegah looping infinite error
+      imgElem.src = PLACEHOLDER_HARDCODE; // Tampilkan banner cokelat Sorean Bake lokal
     }
 
     async function loadDataDariGoogleSheets() {
@@ -876,7 +897,7 @@
             <div class="product-card">
               <div>
                 <!-- TAMBAHKAN ONCLICK DAN CURSOR POINTER DI SINI -->
-                <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')">
+                <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')" onerror="handleImageError(this)">
                 <div class="product-title">${item.nama}</div>
                 <div class="product-variant">${item.varian}</div>
                 ${priceHtml}
@@ -1190,6 +1211,25 @@
     function closeImageModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
+
+    function handleImageError(imgElem) {
+      // Jika gagal via proxy/drive, ganti ke placeholder dengan rapi
+      imgElem.onerror = null;
+      imgElem.src = 'https://placehold.co/400x300/4a3b32/ffffff?text=Sorean+Bake';
+    }
+
+    // Cek otomatis jika ada gambar yang menggantung (pending/stuck) di browser tertentu
+    setInterval(() => {
+      document.querySelectorAll('.product-card img, .slide-item img').forEach(img => {
+        if (!img.dataset.loaded && (!img.complete || img.naturalWidth === 0)) {
+          // Jika lebih dari 3 detik tidak terload, pemicu error dialihkan
+          if (!img.dataset.retry) {
+            img.dataset.retry = "true";
+            handleImageError(img);
+          }
+        }
+      });
+    }, 3000);
   </script>
 </body>
 </html>
