@@ -20,11 +20,11 @@
   
   <!-- 2. Meta Tags Dasar untuk Mesin Pencari (Googlebot) -->
   <meta name="description" content="Nikmati kelezatan Fudgy Brownies & Basque Burnt Cheesecake homemade dari Sorean Bake. Freshly baked daily, siap kirim dari Bekasi via Instant & Sameday.">
-  <meta name="keywords" content="brownies bekasi, basque cheesecake bekasi, fudgy brownies, toko kue bekasi, sorean bake, burnt cheesecake, kue rumahan bekasi, toko kue jatibening, sorean bake jatibening, burnt cheesecake bekasi, burnt cheesecake jatibening, soreanbake,">
+  <meta name="keywords" content="brownies bekasi, basque cheesecake bekasi, fudgy brownies, toko kue bekasi, sorean bake, burnt cheesecake, kue rumahan bekasi, toko kue jatibening, sorean bake jatibening, burnt cheesecake bekasi, burnt cheesecake jatibening, soreanbake">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Sorean Bake">
   
-  <!-- 3. Canonical Link (Sangat Disarankan untuk SEO) -->
+  <!-- 3. Canonical Link -->
   <link rel="canonical" href="https://care-system.github.io/sorean-bake/">
 
   <!-- 4. Open Graph Meta Tags (Preview Link di WhatsApp, Facebook, IG, & Telegram) -->
@@ -37,7 +37,7 @@
   <meta property="og:url" content="https://care-system.github.io/sorean-bake/">
   <meta property="og:type" content="website">
 
-  <!-- 5. Twitter Card Meta Tags (Preview Link di Threads & Twitter/X) -->
+  <!-- 5. Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sorean Bake | Fudgy Brownies & Basque Cheesecake Premium Bekasi">
   <meta name="twitter:description" content="Order Fudgy Brownies & Basque Cheesecake premium buatan rumahan di Bekasi. Freshly baked daily!">
@@ -318,6 +318,187 @@
   .cart-total { font-weight: bold; font-size: 1rem; text-align: right; margin-top: 12px; color: #d32f2f; }
   .btn-checkout { width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 12px; cursor: pointer; font-size: 0.95rem; }
 
+  /* SECTION GALERI FOTO (MASONRY GRID UKURAN BESAR) */
+  .gallery-section {
+    padding: 50px 0;
+    background-color: #faf6f0;
+    border-top: 1px solid #e0d5ce;
+  }
+
+  .gallery-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .gallery-masonry {
+    column-count: 3; /* 3 Kolom di Desktop */
+    column-gap: 20px;
+  }
+
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    background: #4a3b32;
+    cursor: pointer;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    display: block;
+    border-radius: 16px;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(74, 59, 50, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 16px;
+  }
+
+  .gallery-overlay span {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background: rgba(74, 59, 50, 0.8);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 25px;
+    backdrop-filter: blur(3px);
+    transform: translateY(12px);
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.04);
+    opacity: 0.95;
+  }
+
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+  }
+
+  .gallery-item:hover .gallery-overlay span {
+    transform: translateY(0);
+  }
+
+  /* STYLING TESTIMONIAL SLIDER SEAMLESS SMOOTH */
+  .review-section {
+    background: #f4ece6;
+    padding: 40px 0;
+    border-top: 1px solid #e0d5ce;
+    border-bottom: 1px solid #e0d5ce;
+  }
+
+  .review-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .section-title { 
+    text-align: center; 
+    color: #4a3b32; 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+    margin-bottom: 6px; 
+  }
+
+  .section-subtitle { 
+    text-align: center; 
+    color: #666; 
+    font-size: 0.88rem; 
+    margin-bottom: 25px; 
+  }
+
+  .slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 0;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+
+  .slides-container {
+    display: flex;
+    gap: 15px;
+    width: max-content;
+    animation: scrollContinuous 35s linear infinite;
+  }
+
+  .slider-wrapper:hover .slides-container {
+    animation-play-state: paused;
+  }
+
+  .slide-item {
+    flex: 0 0 220px; 
+    box-sizing: border-box;
+  }
+
+  .slide-item img {
+    width: 100%;
+    height: 320px; 
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    display: block;
+    transition: transform 0.2s ease;
+  }
+
+  .slide-item img:hover {
+    transform: scale(1.03);
+  }
+
+  .slider-btn {
+    display: none;
+  }
+
+  @keyframes scrollContinuous {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%); 
+    }
+  }
+
+  .ig-highlight-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #4a3b32;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-decoration: none;
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #d7ccc8;
+    transition: all 0.2s;
+  }
+
+  .ig-highlight-link:hover {
+    background: #4a3b32;
+    color: #fff;
+  }
+
   /* FOOTER DENGAN IKON BRAND ASLI */
   footer { 
     background-color: #3e312a; 
@@ -371,7 +552,6 @@
     gap: 8px;
   }
 
-  /* STYLING IKON SOSMED BERWARNA & HOVER EFFECT */
   .social-link {
     color: #d7ccc8;
     text-decoration: none;
@@ -383,23 +563,10 @@
     transition: all 0.2s ease;
   }
 
-  .social-link i {
-    font-size: 1.1rem;
-  }
-
-  /* WARNA KHUSUS SAAT DIHOVER */
-  .social-link.wa:hover {
-    color: #25D366; /* Warna Hijau WA khas */
-  }
-
-  .social-link.ig:hover {
-    color: #E1306C; /* Warna Pink/Merah IG khas */
-  }
-
-  /* EFLEK HOVER UNTUK THREADS */
-  .social-link.threads:hover {
-    color: #ffffff; /* Warna putih menyala khas Threads saat di-hover */
-  }
+  .social-link i { font-size: 1.1rem; }
+  .social-link.wa:hover { color: #25D366; }
+  .social-link.ig:hover { color: #E1306C; }
+  .social-link.threads:hover { color: #ffffff; }
 
   .footer-copy { 
     text-align: center; 
@@ -412,133 +579,7 @@
     color: #bcaaa4; 
   }
 
-  @media (max-width: 600px) {
-    .nav-menu { display: none; }
-    .hero-banner h1 { font-size: 1.4rem; }
-    .info-bar { font-size: 0.75rem; gap: 8px; }
-  }
-
-  /* STYLING TESTIMONIAL SLIDER 5 KOLOM SEJAJAR KATALOG */
-  .review-section {
-    background: #f4ece6;
-    padding: 40px 0;
-    margin-top: 30px;
-    border-top: 1px solid #e0d5ce;
-    border-bottom: 1px solid #e0d5ce;
-  }
-
-  .review-container {
-    max-width: 1140px; /* Lebar sama persis dengan katalog menu */
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .section-title { 
-    text-align: center; 
-    color: #4a3b32; 
-    font-size: 1.5rem; 
-    font-weight: bold; 
-    margin-bottom: 6px; 
-  }
-
-  .section-subtitle { 
-    text-align: center; 
-    color: #666; 
-    font-size: 0.88rem; 
-    margin-bottom: 25px; 
-  }
-
-  /* STYLING TESTIMONIAL SLIDER SEAMLESS SMOOTH */
-  .slider-wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: 0 auto;
-    padding: 10px 0;
-    /* Efek gradasi pudar halus di ujung kiri & kanan */
-    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  }
-
-  .slides-container {
-    display: flex;
-    gap: 15px; /* Jarak antar kartu */
-    width: max-content;
-    /* Jalankan animasi meluncur mulus tanpa henti */
-    animation: scrollContinuous 35s linear infinite;
-  }
-
-  /* Berhenti sejenak saat kursor di-hover agar user bisa klik/lihat foto */
-  .slider-wrapper:hover .slides-container {
-    animation-play-state: paused;
-  }
-
-  .slide-item {
-    /* Ukuran kartu tetap di Desktop */
-    flex: 0 0 220px; 
-    box-sizing: border-box;
-  }
-
-  .slide-item img {
-    width: 100%;
-    height: 320px; 
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    display: block;
-    transition: transform 0.2s ease;
-  }
-
-  .slide-item img:hover {
-    transform: scale(1.03);
-  }
-
-  /* Sembunyikan Tombol Navigasi Manual */
-  .slider-btn {
-    display: none;
-  }
-
-  /* KEYFRAMES UNTUK PERGERAKAN SMOOTH 100% */
-  @keyframes scrollContinuous {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%); 
-    }
-  }
-
-  /* RESPONSIVE UNTUK LAYAR HP (KARTU AGAK DIKECILKAN SEDIKIT DENGAN PROPORSIONAL) */
-  @media (max-width: 480px) {
-    .slide-item {
-      flex: 0 0 170px; /* Ukuran pas untuk HP agar tetap terlihat halus saat meluncur */
-    }
-    .slide-item img {
-      height: 250px;
-    }
-  }
-
-  .ig-highlight-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #4a3b32;
-    font-weight: bold;
-    font-size: 0.85rem;
-    text-decoration: none;
-    background: #fff;
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid #d7ccc8;
-    transition: all 0.2s;
-  }
-
-  .ig-highlight-link:hover {
-    background: #4a3b32;
-    color: #fff;
-  }
-
-  /* STYLING LIGHTBOX FULL SIZE IMAGE */
+  /* MODAL LIGHTBOX FULL SIZE IMAGE */
   .image-modal {
     display: none; 
     position: fixed; 
@@ -548,8 +589,8 @@
     width: 100%; 
     height: 100%; 
     overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.85); /* Background hitam transparan */
-    backdrop-filter: blur(4px); /* Efek blur halus di latar belakang */
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
     cursor: pointer;
   }
 
@@ -581,8 +622,35 @@
     z-index: 10000;
   }
 
-  .close-modal:hover {
-    color: #ff8a8a;
+  .close-modal:hover { color: #ff8a8a; }
+
+  /* RESPONSIVE BREAKPOINTS (TABLET & HP) */
+  @media (max-width: 900px) {
+    .gallery-masonry {
+      column-count: 2;
+      column-gap: 16px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .nav-menu { display: none; }
+    .hero-banner h1 { font-size: 1.4rem; }
+    .info-bar { font-size: 0.75rem; gap: 8px; }
+  }
+
+  @media (max-width: 500px) {
+    .gallery-masonry {
+      column-count: 1;
+    }
+    .gallery-item {
+      margin-bottom: 16px;
+    }
+    .slide-item {
+      flex: 0 0 170px;
+    }
+    .slide-item img {
+      height: 250px;
+    }
   }
   </style>
 
@@ -601,6 +669,7 @@
       <ul class="nav-menu">
         <li><a href="#">Home</a></li>
         <li><a href="#katalog-section">Menu</a></li>
+        <li><a href="#gallery-section">Gallery</a></li>
         <li><a href="#review-section">Reviews</a></li>
         <li><a href="#contact-section">Contact Us</a></li>
       </ul>
@@ -633,6 +702,37 @@
     </div>
   </main>
 
+  <!-- SECTION TESTIMONI SLIDER (OTOMATIS DARI GOOGLE DRIVE) -->
+  <section class="review-section" id="review-section">
+    <div class="review-container">
+      <h2 class="section-title">Testimoni Pelanggan 💬✨</h2>
+      <p class="section-subtitle">Real feedback & cerita manis dari penikmat Sorean Bake</p>
+
+      <div class="slider-wrapper">
+        <div class="slides-container" id="slidesContainer">
+          <p style="text-align:center; padding: 40px; color:#666; width:100%;">Memuat testimoni terbaru...</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="https://www.instagram.com/stories/highlights/18090714716126182/" target="_blank" class="ig-highlight-link">
+          <i class="fa-brands fa-instagram"></i> Lihat Highlight Instagram Sorean Bake
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- SECTION GALERI FOTO (DARI GOOGLE DRIVE) -->
+  <section class="gallery-section" id="gallery-section">
+    <div class="gallery-container">
+      <h2 class="section-title">Koleksi & Portofolio Pesanan 📸✨</h2>
+      <p class="section-subtitle">Tangkapan momen dan kreasi manis dari dapur Sorean Bake</p>
+
+      <div class="gallery-masonry" id="galleryContainer">
+        <p style="text-align:center; padding: 40px; color:#666; column-span: all;">Memuat galeri foto...</p>
+      </div>
+    </div>
+  </section>
+
   <!-- MODAL KERANJANG -->
   <div id="cartModal" class="cart-modal">
     <div class="cart-content">
@@ -662,7 +762,6 @@
 
       <div class="cart-total" id="cart-total-price">Total: Rp 0</div>
 
-      <!-- BOX INFO METODE PEMBAYARAN -->
       <div class="payment-info-box">
         <div style="font-weight: bold; font-size: 0.8rem; color: #4a3b32; margin-bottom: 4px;">
           💳 Metode Pembayaran:
@@ -677,50 +776,21 @@
     </div>
   </div>
 
-  <!-- SECTION TESTIMONI SLIDER (OTOMATIS DARI GOOGLE DRIVE) -->
-  <section class="review-section" id="review-section">
-    <div class="review-container">
-      <h2 class="section-title">Testimoni Pelanggan 💬✨</h2>
-      <p class="section-subtitle">Real feedback & cerita manis dari penikmat Sorean Bake</p>
-
-      <!-- CONTAINER CAROUSEL -->
-      <div class="slider-wrapper">
-        <div class="slides-container" id="slidesContainer">
-          <p style="text-align:center; padding: 40px; color:#fff; width:100%;">Memuat testimoni terbaru...</p>
-        </div>
-
-        <!-- Tombol Navigasi Kiri & Kanan -->
-        <button class="slider-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
-        <button class="slider-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
-      </div>
-
-      <!-- Link opsional ke Highlight Instagram -->
-      <div style="text-align: center; margin-top: 20px;">
-        <a href="https://www.instagram.com/stories/highlights/18090714716126182/" target="_blank" class="ig-highlight-link">
-          <i class="fa-brands fa-instagram"></i> Lihat Highlight Instagram Sorean Bake
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- FOOTER -->
   <footer id="contact-section">
     <div class="footer-container">
       
-      <!-- Kolom 1: Brand & Tagline -->
       <div class="footer-col">
         <div class="footer-brand">Sorean Bake</div>
         <p class="footer-desc">Freshly Baked Fudgy Brownies & Basque Cheesecake olahan rumahan buatan tangan terbaik.</p>
       </div>
 
-      <!-- Kolom 2: Jam Operasional & Lokasi -->
       <div class="footer-col">
         <div class="footer-title">Jam Operasional & Kirim</div>
         <p class="footer-text"><i class="fa-regular fa-clock"></i> Senin - Sabtu: 08.00 - 17.00 WIB</p>
         <p class="footer-text"><i class="fa-solid fa-location-dot"></i> Pengiriman dari Bekasi</p>
       </div>
 
-      <!-- Kolom 3: Kontak & Sosial Media dengan Ikon Asli -->
       <div class="footer-col">
         <div class="footer-title">Hubungi Kami</div>
         <div class="footer-socials">
@@ -768,13 +838,12 @@
       { nama: "Fresh Fruit", harga: 8000 }
     ];
 
-    // FUNGSI KONVERSI GAMBAR GOOGLE DRIVE DAN PLACEHOLDER
     // GAMBAR PLACEHOLDER HARDCODE MURNI (SVG BASE64) - TANPA DEPENDENCY LUAR
     const PLACEHOLDER_HARDCODE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='100%' height='100%' fill='%234a3b32'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI, sans-serif' font-size='26' font-weight='bold' fill='%23ffffff'>Sorean Bake</text></svg>";
 
     function formatUrlGambar(url) {
       if (!url || url.toString().trim() === "" || url === "null" || url === "undefined") {
-        return PLACEHOLDER_HARDCODE; // Gunakan hardcode lokal jika link kosong
+        return PLACEHOLDER_HARDCODE;
       }
       
       url = url.toString().trim();
@@ -794,10 +863,9 @@
       return url;
     }
 
-    // FUNGSI ERROR HANDLING DENGAN FALLBACK HARDCODE MURNI
     function handleImageError(imgElem) {
-      imgElem.onerror = null; // Mencegah looping infinite error
-      imgElem.src = PLACEHOLDER_HARDCODE; // Tampilkan banner cokelat Sorean Bake lokal
+      imgElem.onerror = null;
+      imgElem.src = PLACEHOLDER_HARDCODE;
     }
 
     async function loadDataDariGoogleSheets() {
@@ -863,7 +931,6 @@
           });
           toppingOptionsHtml += `</select>`;
 
-          // Tampilan Harga Normal vs Harga Promo
           let priceHtml = '';
           if (item.hargaCoret && item.hargaCoret > item.harga) {
             const hematPct = Math.round(((item.hargaCoret - item.harga) / item.hargaCoret) * 100);
@@ -885,7 +952,6 @@
           categoryHtml += `
             <div class="product-card">
               <div>
-                <!-- TAMBAHKAN ONCLICK DAN CURSOR POINTER DI SINI -->
                 <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')" onerror="handleImageError(this)">
                 <div class="product-title">${item.nama}</div>
                 <div class="product-variant">${item.varian}</div>
@@ -1013,7 +1079,6 @@
         return;
       }
 
-      // 1. Olah Data Per-Item untuk Backend Google Apps Script
       const payloadItems = keranjang.map(item => {
         let toppingName = "Tanpa Topping";
         let menuNameOnly = item.nama;
@@ -1042,7 +1107,6 @@
         };
       });
 
-      // 2. Kirim Data ke Google Apps Script di Latar Belakang
       try {
         fetch(WEB_APP_URL, {
           method: "POST",
@@ -1059,7 +1123,6 @@
         console.error("Gagal mengirim data ke Google Sheets:", err);
       }
 
-      // 3. Format & Buka Chat WhatsApp
       let pesanWA = "Halo Sorean Bake, saya mau konfirmasi pesanan berikut:%0A";
       pesanWA += `*Atas Nama:* ${encodeURIComponent(namaPemesan)}%0A`;
       pesanWA += `*Email:* ${encodeURIComponent(emailPemesan)}%0A`;
@@ -1081,25 +1144,48 @@
       window.open("https://wa.me/" + nomorWA + "?text=" + pesanWA, "_blank");
     }
 
-    loadDataDariGoogleSheets();
+    // FUNGSI LOAD GALERI DARI GOOGLE DRIVE
+    async function loadGaleriDariDrive() {
+      const container = document.getElementById('galleryContainer');
+      if (!container) return;
 
-    // LOGIKA SLIDER TESTIMONI GOOGLE DRIVE
-    let currentSlideIndex = 0;
-    let totalSlides = 0;
-    let autoSlideInterval = null;
+      try {
+        const response = await fetch(WEB_APP_URL + "?type=galeri");
+        const imageList = await response.json();
 
-    function getVisibleSlidesCount() {
-      const width = window.innerWidth;
-      if (width <= 480) return 1;  // HP
-      if (width <= 768) return 2;  // Tablet
-      if (width <= 1024) return 3; // Laptop Kecil
-      return 5;                    // Desktop (5 Kolom Sejajar Katalog)
+        if (!imageList || imageList.length === 0 || imageList.error) {
+          container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; column-span: all;">Belum ada foto galeri.</p>';
+          return;
+        }
+
+        container.innerHTML = '';
+        let html = '';
+
+        imageList.forEach((imgUrl, index) => {
+          const srcGambar = formatUrlGambar(imgUrl);
+          html += `
+            <div class="gallery-item" onclick="openImageModal('${srcGambar}')">
+              <img src="${srcGambar}" alt="Momen Sorean Bake ${index + 1}" onerror="handleImageError(this)">
+              <div class="gallery-overlay">
+                <span>🔍 Lihat Foto</span>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+
+      } catch (err) {
+        console.error("Gagal memuat galeri:", err);
+        container.innerHTML = '<p style="text-align:center; padding: 40px; color:#666; column-span: all;">Gagal memuat galeri foto.</p>';
+      }
     }
 
+    // LOGIKA SLIDER TESTIMONI GOOGLE DRIVE (SEAMLESS CONTINUOUS)
     async function loadTestimoniDariDrive() {
       const container = document.getElementById('slidesContainer');
       try {
-        const response = await fetch(WEB_APP_URL);
+        const response = await fetch(WEB_APP_URL + "?type=testimoni");
         const imageList = await response.json();
 
         if (!imageList || imageList.length === 0 || imageList.error) {
@@ -1108,17 +1194,18 @@
         }
 
         container.innerHTML = '';
-        
         let itemsHtml = '';
+
         imageList.forEach(imgUrl => {
+          const srcGambar = formatUrlGambar(imgUrl);
           itemsHtml += `
             <div class="slide-item">
-              <img src="${imgUrl}" alt="Testimoni Sorean Bake" style="cursor: pointer;" onclick="openImageModal('${imgUrl}')" onerror="handleImageError(this)">
+              <img src="${srcGambar}" alt="Testimoni Sorean Bake" style="cursor: pointer;" onclick="openImageModal('${srcGambar}')" onerror="handleImageError(this)">
             </div>
           `;
         });
 
-        // SET PERTAMA + SET DUPLIKAT (PENTING SUPAYA LOOPING 100% SEAMLESS)
+        // SET PERTAMA + SET DUPLIKAT (UNIK UNTUK INFINITE MARQUEE SEAMLESS)
         container.innerHTML = itemsHtml + itemsHtml;
 
       } catch (err) {
@@ -1127,55 +1214,7 @@
       }
     }
 
-    function startAutoSlide() {
-      if (autoSlideInterval) clearInterval(autoSlideInterval);
-      autoSlideInterval = setInterval(() => {
-        moveSlide(1);
-      }, 3500);
-    }
-
-    function showSlide(index) {
-      const container = document.getElementById('slidesContainer');
-      if (totalSlides === 0) return;
-
-      currentSlideIndex = index;
-      const slideItem = container.querySelector('.slide-item');
-      if (!slideItem) return;
-
-      const itemWidth = slideItem.offsetWidth + 15; // 15px gap
-      
-      // Terapkan transisi pergeseran
-      container.style.transition = "transform 0.4s ease-in-out";
-      container.style.transform = `translateX(-${currentSlideIndex * itemWidth}px)`;
-
-      // Reset ke awal secara halus tanpa animasi saat sudah mencapai clone terakhir
-      if (currentSlideIndex >= totalSlides) {
-        setTimeout(() => {
-          container.style.transition = "none"; // Matikan transisi sekejap
-          currentSlideIndex = 0;
-          container.style.transform = `translateX(0px)`;
-        }, 400); // 400ms sesuai durasi transisi
-      } 
-      else if (currentSlideIndex < 0) {
-        setTimeout(() => {
-          container.style.transition = "none";
-          currentSlideIndex = totalSlides - 1;
-          container.style.transform = `translateX(-${currentSlideIndex * itemWidth}px)`;
-        }, 400);
-      }
-    }
-
-    function moveSlide(direction) {
-      showSlide(currentSlideIndex + direction);
-    }
-
-    window.addEventListener('resize', () => {
-      showSlide(currentSlideIndex);
-    });
-
-    loadTestimoniDariDrive();
-
-    // FUNGSI UNTUK MEMBUKA GAMBAR FULL SIZE
+    // FUNGSI MODAL LIGHTBOX
     function openImageModal(imgSrc) {
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('imgModalFull');
@@ -1185,22 +1224,14 @@
       modalImg.src = imgSrc;
     }
 
-    // FUNGSI UNTUK MENUTUP MODAL
     function closeImageModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
 
-    function handleImageError(imgElem) {
-      // Jika gagal via proxy/drive, ganti ke placeholder dengan rapi
-      imgElem.onerror = null;
-      imgElem.src = 'https://placehold.co/400x300/4a3b32/ffffff?text=Sorean+Bake';
-    }
-
-    // Cek otomatis jika ada gambar yang menggantung (pending/stuck) di browser tertentu
+    // PEMINDAI GAMBAR PENDING DENGAN RETRY AUTOMATIS
     setInterval(() => {
-      document.querySelectorAll('.product-card img, .slide-item img').forEach(img => {
+      document.querySelectorAll('.product-card img, .slide-item img, .gallery-item img').forEach(img => {
         if (!img.dataset.loaded && (!img.complete || img.naturalWidth === 0)) {
-          // Jika lebih dari 3 detik tidak terload, pemicu error dialihkan
           if (!img.dataset.retry) {
             img.dataset.retry = "true";
             handleImageError(img);
@@ -1208,6 +1239,13 @@
         }
       });
     }, 3000);
+
+    // INISIALISASI DATA SAAT BUKA WEB
+    document.addEventListener("DOMContentLoaded", () => {
+      loadDataDariGoogleSheets();
+      loadGaleriDariDrive();
+      loadTestimoniDariDrive();
+    });
   </script>
 </body>
 </html>
