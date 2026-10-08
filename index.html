@@ -963,16 +963,51 @@
 
     async function loadDataDariGoogleSheets() {
       try {
-        const response = await fetch(URL_GOOGLE_SHEETS_MENU);
-        const dataCsv = await response.text();
-        
-        Papa.parse(dataCsv, {
+        const [resTopping, resMenu] = await Promise.all([
+          fetch(URL_GOOGLE_SHEETS_TOPPING),
+          fetch(URL_GOOGLE_SHEETS_MENU)
+        ]);
+
+        const csvToppingText = await resTopping.text();
+        const csvMenuText = await resMenu.text();
+
+        // Parse Data Topping
+        Papa.parse(csvToppingText, {
           header: true,
           dynamicTyping: true,
-          complete: function(results) {
-            prosesAndRenderData(results.data);
+          complete: function(resultsTopping) {
+            listTopping = [];
+            resultsTopping.data.forEach(row => {
+              if (row.nama !== undefined && row.nama !== null && String(row.nama).trim() !== "") {
+                let valHarga = 0;
+                if (typeof row.harga === 'number') {
+                  valHarga = row.harga;
+                } else if (row.harga) {
+                  valHarga = Number(String(row.harga).replace(/[^0-9]/g, '')) || 0;
+                }
+
+                listTopping.push({
+                  nama: String(row.nama).trim(),
+                  harga: valHarga
+                });
+              }
+            });
+
+            if (listTopping.length === 0) {
+              listTopping = [{ nama: "Tanpa Topping", harga: 0 }];
+            }
           }
         });
+
+        // Parse Data Menu Catalog & Render
+        Papa.parse(csvMenuText, {
+          header: true,
+          dynamicTyping: true,
+          complete: function(resultsMenu) {
+            prosesAndRenderData(resultsMenu.data);
+          }
+        });
+
       } catch (error) {
         console.error("Gagal mengambil data dari Google Sheets:", error);
         document.getElementById('catalog-container').innerHTML = '<p style="text-align:center; color:red;">Gagal memuat menu. Periksa koneksi internet.</p>';
