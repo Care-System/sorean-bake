@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://care-system.github.io/sorean-bake/sitemap.xml
