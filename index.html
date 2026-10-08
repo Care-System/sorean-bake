@@ -43,7 +43,7 @@
   <meta name="twitter:description" content="Order Fudgy Brownies & Basque Cheesecake premium buatan rumahan di Bekasi. Freshly baked daily!">
   <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/1kCMD4dRauKChB1dbWWbTsvKD41rCFAdd">
   
-  <!-- Favicon dari Google Drive -->
+  <!-- Favicon dari Asset Lokal -->
   <link rel="icon" type="image/png" href="./assets/logo.png">
   <!-- Font Awesome CDN Terbaru (Mendukung Ikon Threads) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -230,7 +230,40 @@
   }
 
   .product-title { font-size: 0.95rem; font-weight: bold; color: #333; margin-bottom: 4px; line-height: 1.2; }
-  .product-variant { font-size: 0.8rem; color: #666; margin-bottom: 8px; font-weight: 500; }
+  
+  /* BATASAN MAKSIMAL 2 BARIS TEKS PADA VARIAN / DESKRIPSI */
+  .product-variant { 
+    font-size: 0.8rem; 
+    color: #555; 
+    margin-bottom: 4px; 
+    font-weight: 400; 
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Maksimal 2 baris saja */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* KETIKA DIBUKA KELUAR SEMUA */
+  .product-variant.expanded {
+    display: block;
+    overflow: visible;
+  }
+
+  /* TOMBOL READ MORE / LIHAT SELENGKAPNYA */
+  .btn-read-more {
+    background: none;
+    border: none;
+    color: #4a3b32;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 8px;
+    text-decoration: underline;
+    display: inline-block;
+  }
   
   /* STYLING HARGA PROMO & BADGE */
   .price-container {
@@ -263,15 +296,27 @@
     border: 1px solid #ffcdd2;
   }
 
-  .topping-select { 
-    width: 100%; 
-    padding: 7px; 
-    border-radius: 6px; 
-    border: 1px solid #ccc; 
-    font-size: 0.8rem; 
-    margin-bottom: 10px; 
-    background: #fff; 
-    color: #333; 
+  /* STYLING TOMBOL & SUMMARY TOPPING MULTI-SELECT */
+  .btn-select-topping {
+    width: 100%;
+    background: #fdfbf7;
+    border: 1px solid #d7ccc8;
+    color: #4a3b32;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    transition: background 0.2s;
+  }
+
+  .btn-select-topping:hover {
+    background: #f4ece6;
   }
   
   .qty-control { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
@@ -291,6 +336,70 @@
     transition: background 0.2s;
   }
   .btn-add:hover { background: #332822; }
+
+  /* MODAL MULTI-SELECT TOPPING */
+  .topping-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .topping-modal-content {
+    background: #fff;
+    width: 90%;
+    max-width: 380px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+  }
+
+  .topping-list-container {
+    max-height: 250px;
+    overflow-y: auto;
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .topping-item-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+  }
+
+  .topping-item-option:hover {
+    background: #fdfbf7;
+  }
+
+  .topping-item-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4a3b32;
+    cursor: pointer;
+  }
+
+  .btn-save-topping {
+    width: 100%;
+    background: #4a3b32;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
   /* MODAL KERANJANG */
   .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
@@ -331,28 +440,23 @@
     padding: 0 20px;
   }
 
-  /* CONTAINER BATAS TINGGI AREA SLIDESHOW VERTIKAL */
   .gallery-slider-wrapper {
     position: relative;
     overflow: hidden;
-    height: 600px; /* Tinggi area galeri yang tampil di layar */
+    height: 600px;
     width: 100%;
     margin: 0 auto;
-    /* Masking pudar di bagian atas & bawah agar estetik */
     mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
   }
 
-  /* GRID 2 KOLOM YANG BERGERAK VERTIKAL */
   .gallery-vertical-track {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 Kolom Sejajar */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    /* Animasi meluncur dari atas ke bawah */
     animation: scrollVertical 80s linear infinite;
   }
 
-  /* Pause saat kursor di-hover agar gambar gampang diklik */
   .gallery-slider-wrapper:hover .gallery-vertical-track {
     animation-play-state: paused;
   }
@@ -364,7 +468,7 @@
     box-shadow: 0 6px 16px rgba(0,0,0,0.08);
     background: #4a3b32;
     cursor: pointer;
-    height: 280px; /* Tinggi konsisten per kartu galeri */
+    height: 280px;
   }
 
   .gallery-item img {
@@ -417,27 +521,9 @@
     transform: translateY(0);
   }
 
-  /* KEYFRAMES SLIDESHOW DARI ATAS KE BAWAH */
   @keyframes scrollVertical {
-    0% {
-      transform: translateY(-50%); /* Mulai dari posisi atas */
-    }
-    100% {
-      transform: translateY(0); /* Meluncur turun ke bawah secara seamless */
-    }
-  }
-
-  /* RESPONSIVE UNTUK HP */
-  @media (max-width: 600px) {
-    .gallery-slider-wrapper {
-      height: 480px;
-    }
-    .gallery-vertical-track {
-      gap: 12px;
-    }
-    .gallery-item {
-      height: 200px;
-    }
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
   }
 
   /* STYLING TESTIMONIAL SLIDER SEAMLESS SMOOTH */
@@ -509,17 +595,9 @@
     transform: scale(1.03);
   }
 
-  .slider-btn {
-    display: none;
-  }
-
   @keyframes scrollContinuous {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%); 
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 
   .ig-highlight-link {
@@ -542,7 +620,7 @@
     color: #fff;
   }
 
-  /* FOOTER DENGAN IKON BRAND ASLI */
+  /* FOOTER */
   footer { 
     background-color: #3e312a; 
     color: #f0e6df; 
@@ -560,40 +638,11 @@
     padding-bottom: 20px;
   }
 
-  .footer-brand { 
-    font-weight: bold; 
-    font-size: 1.15rem; 
-    color: #fff; 
-    margin-bottom: 6px; 
-  }
-
-  .footer-desc {
-    color: #d7ccc8;
-    font-size: 0.8rem;
-    line-height: 1.4;
-  }
-
-  .footer-title {
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-  }
-
-  .footer-text {
-    color: #d7ccc8;
-    font-size: 0.8rem;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .footer-socials {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .footer-brand { font-weight: bold; font-size: 1.15rem; color: #fff; margin-bottom: 6px; }
+  .footer-desc { color: #d7ccc8; font-size: 0.8rem; line-height: 1.4; }
+  .footer-title { font-weight: bold; color: #fff; margin-bottom: 10px; font-size: 0.9rem; }
+  .footer-text { color: #d7ccc8; font-size: 0.8rem; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .footer-socials { display: flex; flex-direction: column; gap: 8px; }
 
   .social-link {
     color: #d7ccc8;
@@ -627,10 +676,8 @@
     display: none; 
     position: fixed; 
     z-index: 9999; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
+    left: 0; top: 0;
+    width: 100%; height: 100%; 
     overflow: auto; 
     background-color: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(4px);
@@ -655,45 +702,23 @@
 
   .close-modal {
     position: absolute;
-    top: 15px;
-    right: 25px;
-    color: #fff;
-    font-size: 35px;
-    font-weight: bold;
-    transition: 0.2s;
-    cursor: pointer;
-    z-index: 10000;
+    top: 15px; right: 25px;
+    color: #fff; font-size: 35px; font-weight: bold;
+    cursor: pointer; z-index: 10000;
   }
 
   .close-modal:hover { color: #ff8a8a; }
 
-  /* RESPONSIVE BREAKPOINTS (TABLET & HP) */
-  @media (max-width: 900px) {
-    .gallery-masonry {
-      column-count: 2;
-      column-gap: 16px;
-    }
-  }
-
+  /* RESPONSIVE BREAKPOINTS */
   @media (max-width: 600px) {
     .nav-menu { display: none; }
     .hero-banner h1 { font-size: 1.4rem; }
     .info-bar { font-size: 0.75rem; gap: 8px; }
-  }
-
-  @media (max-width: 500px) {
-    .gallery-masonry {
-      column-count: 1;
-    }
-    .gallery-item {
-      margin-bottom: 16px;
-    }
-    .slide-item {
-      flex: 0 0 170px;
-    }
-    .slide-item img {
-      height: 250px;
-    }
+    .gallery-slider-wrapper { height: 480px; }
+    .gallery-vertical-track { gap: 12px; }
+    .gallery-item { height: 200px; }
+    .slide-item { flex: 0 0 170px; }
+    .slide-item img { height: 250px; }
   }
   </style>
 
@@ -764,7 +789,8 @@
       </div>
     </div>
   </section>
-  <!-- SECTION GALERI FOTO (DARI GOOGLE DRIVE) -->
+
+  <!-- SECTION GALERI FOTO (VERTIKAL SLIDESHOW DARI GOOGLE DRIVE) -->
   <section class="gallery-section" id="gallery-section">
     <div class="gallery-container">
       <h2 class="section-title">Koleksi & Portofolio Pesanan 📸✨</h2>
@@ -777,6 +803,22 @@
       </div>
     </div>
   </section>
+
+  <!-- MODAL MULTI-SELECT TOPPING -->
+  <div id="toppingModal" class="topping-modal">
+    <div class="topping-modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+        <h4 style="color:#4a3b32; font-size: 1rem;">Pilih Topping (Bisa Pilih >1)</h4>
+        <button class="close-btn" onclick="tutupToppingModal()">&times;</button>
+      </div>
+
+      <div class="topping-list-container" id="toppingListOptions">
+        <!-- Pilihan topping checkbox akan di-render dinamis di sini -->
+      </div>
+
+      <button class="btn-save-topping" onclick="simpanToppingTerpilih()">Selesai Pilih Topping</button>
+    </div>
+  </div>
 
   <!-- MODAL KERANJANG -->
   <div id="cartModal" class="cart-modal">
@@ -866,13 +908,20 @@
 
   <script>
     const nomorWA = "6287889667929";
-    const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUmFMSHvd6gaL6VaGqouFpKmpG7dYmTgei27iKEJaUE5J_I8iiGCnmjT2RruEGwfx715NLS62F8DUX/pub?gid=0&single=true&output=csv";
+    
+    // LINK GOOGLE SHEETS MENU (gid=0) & TOPPING (Ubah gid=XXXXXXXXX sesuai ID Tab Topping)
+    const URL_GOOGLE_SHEETS_MENU = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUmFMSHvd6gaL6VaGqouFpKmpG7dYmTgei27iKEJaUE5J_I8iiGCnmjT2RruEGwfx715NLS62F8DUX/pub?gid=0&single=true&output=csv";
+    const URL_GOOGLE_SHEETS_TOPPING = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUmFMSHvd6gaL6VaGqouFpKmpG7dYmTgei27iKEJaUE5J_I8iiGCnmjT2RruEGwfx715NLS62F8DUX/pub?gid=0&single=true&output=csv"; 
+
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw-uFMs9UfGjjMvWXwX-bVwUzevnKgK8tAJJXydiJg_4RlXCVCIOP9lW6hAdMmuX57U/exec";
 
     let menuData = [];
     let keranjang = [];
+    let activeToppingItemId = null;
+    let selectedToppingsMap = {}; 
 
-    const listTopping = [
+    // FALLBACK LIST TOPPING JIKA SHEETS TOPPING BELUM DI-SET
+    let listTopping = [
       { nama: "Tanpa Topping", harga: 0 },
       { nama: "Peanut", harga: 5000 },
       { nama: "Keju", harga: 5000 },
@@ -883,7 +932,6 @@
       { nama: "Fresh Fruit", harga: 8000 }
     ];
 
-    // GAMBAR PLACEHOLDER HARDCODE MURNI (SVG BASE64) - TANPA DEPENDENCY LUAR
     const PLACEHOLDER_HARDCODE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='100%' height='100%' fill='%234a3b32'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI, sans-serif' font-size='26' font-weight='bold' fill='%23ffffff'>Sorean Bake</text></svg>";
 
     function formatUrlGambar(url) {
@@ -902,7 +950,6 @@
       }
 
       if (fileId) {
-        // return `https://lh3.googleusercontent.com/d/${fileId}`;
         return `https://wsrv.nl/?url=https://drive.google.com/uc?id=${fileId}&w=600&output=webp`;
       }
 
@@ -916,7 +963,7 @@
 
     async function loadDataDariGoogleSheets() {
       try {
-        const response = await fetch(URL_GOOGLE_SHEETS);
+        const response = await fetch(URL_GOOGLE_SHEETS_MENU);
         const dataCsv = await response.text();
         
         Papa.parse(dataCsv, {
@@ -947,7 +994,7 @@
         kat.items.push({
           id: String(row.id),
           nama: row.nama,
-          varian: row.varian,
+          varian: row.varian || "",
           harga: Number(row.harga),
           hargaCoret: row.harga_coret ? Number(row.harga_coret) : null,
           img: formatUrlGambar(row.img)
@@ -970,13 +1017,6 @@
         let categoryHtml = `<div class="category-header">${kat.kategori}</div><div class="product-grid">`;
         
         kat.items.forEach(item => {
-          let toppingOptionsHtml = `<select id="${item.id}-topping" class="topping-select">`;
-          listTopping.forEach((top, index) => {
-            const labelHarga = top.harga > 0 ? ` (+Rp ${top.harga.toLocaleString('id-ID')})` : '';
-            toppingOptionsHtml += `<option value="${index}">${top.nama}${labelHarga}</option>`;
-          });
-          toppingOptionsHtml += `</select>`;
-
           let priceHtml = '';
           if (item.hargaCoret && item.hargaCoret > item.harga) {
             const hematPct = Math.round(((item.hargaCoret - item.harga) / item.hargaCoret) * 100);
@@ -995,15 +1035,35 @@
             `;
           }
 
+          // Label Topping Terpilih
+          const selectedIndices = selectedToppingsMap[item.id] || [];
+          let labelTopping = "Pilih Topping...";
+          if (selectedIndices.length > 0) {
+            labelTopping = selectedIndices.map(idx => listTopping[idx].nama).join(", ");
+          }
+
+          // CEK APAKAH DESKRIPSI/VARIAN LEBIH DARI 80 KARAKTER UNTUK TOMBOL READ MORE
+          const isLongText = item.varian && item.varian.length > 75;
+
           categoryHtml += `
             <div class="product-card">
               <div>
                 <img src="${item.img}" alt="${item.nama}" style="cursor: pointer;" onclick="openImageModal('${item.img}')" onerror="handleImageError(this)">
                 <div class="product-title">${item.nama}</div>
-                <div class="product-variant">${item.varian}</div>
+                
+                <!-- VARIAN DENGAN PEMBATASAN 2 BARIS & ACTION READ MORE -->
+                <div class="product-variant" id="variant-text-${item.id}">${item.varian}</div>
+                ${isLongText ? `<button class="btn-read-more" id="btn-more-${item.id}" onclick="toggleReadMore('${item.id}')">Lihat Selengkapnya</button>` : ''}
+
                 ${priceHtml}
-                ${toppingOptionsHtml}
+
+                <!-- TOMBOL BUKA MODAL MULTI-SELECT TOPPING -->
+                <button class="btn-select-topping" onclick="bukaToppingModal('${item.id}')">
+                  <span id="topping-label-${item.id}" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 85%;">${labelTopping}</span>
+                  <span>⚙️</span>
+                </button>
               </div>
+
               <div>
                 <div class="qty-control">
                   <button class="qty-btn" onclick="ubahQty('${item.id}', -1)">-</button>
@@ -1021,6 +1081,68 @@
       });
     }
 
+    /* LOGIKA TOGGLE READ MORE / READ LESS */
+    function toggleReadMore(itemId) {
+      const textElem = document.getElementById(`variant-text-${itemId}`);
+      const btnElem = document.getElementById(`btn-more-${itemId}`);
+
+      if (textElem.classList.contains('expanded')) {
+        textElem.classList.remove('expanded');
+        btnElem.innerText = "Lihat Selengkapnya";
+      } else {
+        textElem.classList.add('expanded');
+        btnElem.innerText = "Sembunyikan";
+      }
+    }
+
+    /* LOGIKA POPUP MODAL MULTI-SELECT TOPPING */
+    function bukaToppingModal(itemId) {
+      activeToppingItemId = itemId;
+      const modal = document.getElementById('toppingModal');
+      const container = document.getElementById('toppingListOptions');
+      
+      const currentSelected = selectedToppingsMap[itemId] || [];
+      container.innerHTML = '';
+
+      listTopping.forEach((top, index) => {
+        const isChecked = currentSelected.includes(index) ? 'checked' : '';
+        const labelHarga = top.harga > 0 ? `(+Rp ${top.harga.toLocaleString('id-ID')})` : '(Gratis)';
+
+        container.innerHTML += `
+          <label class="topping-item-option">
+            <div>
+              <strong>${top.nama}</strong> <small style="color:#888;">${labelHarga}</small>
+            </div>
+            <input type="checkbox" value="${index}" ${isChecked} class="topping-checkbox-input">
+          </label>
+        `;
+      });
+
+      modal.style.display = 'flex';
+    }
+
+    function tutupToppingModal() {
+      document.getElementById('toppingModal').style.display = 'none';
+    }
+
+    function simpanToppingTerpilih() {
+      if (!activeToppingItemId) return;
+
+      const checkboxes = document.querySelectorAll('.topping-checkbox-input:checked');
+      const selectedIndices = Array.from(checkboxes).map(cb => parseInt(cb.value));
+
+      selectedToppingsMap[activeToppingItemId] = selectedIndices;
+
+      const labelElem = document.getElementById(`topping-label-${activeToppingItemId}`);
+      if (selectedIndices.length === 0) {
+        labelElem.innerText = "Pilih Topping...";
+      } else {
+        labelElem.innerText = selectedIndices.map(idx => listTopping[idx].nama).join(", ");
+      }
+
+      tutupToppingModal();
+    }
+
     function ubahQty(id, delta) {
       const input = document.getElementById(id + '-qty');
       let val = parseInt(input.value) + delta;
@@ -1030,11 +1152,21 @@
 
     function tambahKeKeranjang(nama, varian, hargaDasar, itemId) {
       const qty = parseInt(document.getElementById(itemId + '-qty').value);
-      const toppingIndex = document.getElementById(itemId + '-topping').value;
-      const toppingSelected = listTopping[toppingIndex];
+      const selectedIndices = selectedToppingsMap[itemId] || [];
 
-      const hargaTotalItem = hargaDasar + toppingSelected.harga;
-      const toppingText = toppingSelected.harga > 0 ? ` [Topping: ${toppingSelected.nama}]` : '';
+      let extraHargaTopping = 0;
+      let toppingNames = [];
+
+      selectedIndices.forEach(idx => {
+        const top = listTopping[idx];
+        extraHargaTopping += top.harga;
+        if (top.harga > 0 || top.nama !== "Tanpa Topping") {
+          toppingNames.push(top.nama);
+        }
+      });
+
+      const hargaTotalItem = hargaDasar + extraHargaTopping;
+      const toppingText = toppingNames.length > 0 ? ` [Topping: ${toppingNames.join(", ")}]` : '';
       const namaLengkap = `${nama} - ${varian}${toppingText}`;
 
       const index = keranjang.findIndex(item => item.nama === namaLengkap);
@@ -1190,7 +1322,7 @@
       window.open("https://wa.me/" + nomorWA + "?text=" + pesanWA, "_blank");
     }
 
-    // FUNGSI LOAD GALERI DARI GOOGLE DRIVE
+    // FUNGSI LOAD GALERI VERTIKAL DARI GOOGLE DRIVE
     async function loadGaleriDariDrive() {
       const container = document.getElementById('galleryContainer');
       if (!container) return;
@@ -1219,7 +1351,6 @@
           `;
         });
 
-        // SET PERTAMA + DUPLIKAT (PENTING AGAR LOOPING VERTIKAL MULUS 100%)
         container.innerHTML = itemsHtml + itemsHtml;
 
       } catch (err) {
@@ -1228,7 +1359,7 @@
       }
     }
 
-    // LOGIKA SLIDER TESTIMONI GOOGLE DRIVE (SEAMLESS CONTINUOUS)
+    // LOGIKA SLIDER TESTIMONI GOOGLE DRIVE
     async function loadTestimoniDariDrive() {
       const container = document.getElementById('slidesContainer');
       try {
@@ -1252,7 +1383,6 @@
           `;
         });
 
-        // SET PERTAMA + SET DUPLIKAT (UNIK UNTUK INFINITE MARQUEE SEAMLESS)
         container.innerHTML = itemsHtml + itemsHtml;
 
       } catch (err) {
@@ -1261,7 +1391,6 @@
       }
     }
 
-    // FUNGSI MODAL LIGHTBOX
     function openImageModal(imgSrc) {
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('imgModalFull');
@@ -1275,7 +1404,6 @@
       document.getElementById('imageModal').style.display = 'none';
     }
 
-    // PEMINDAI GAMBAR PENDING DENGAN RETRY AUTOMATIS
     setInterval(() => {
       document.querySelectorAll('.product-card img, .slide-item img, .gallery-item img').forEach(img => {
         if (!img.dataset.loaded && (!img.complete || img.naturalWidth === 0)) {
@@ -1287,7 +1415,6 @@
       });
     }, 3000);
 
-    // INISIALISASI DATA SAAT BUKA WEB
     document.addEventListener("DOMContentLoaded", () => {
       loadDataDariGoogleSheets();
       loadGaleriDariDrive();
