@@ -296,6 +296,16 @@
     border: 1px solid #ffcdd2;
   }
 
+  /* STYLING TOMBOL TOPPING MUTE / DISABLED */
+  .btn-select-topping.disabled {
+    background: #f0f0f0 !important;
+    border-color: #e0e0e0 !important;
+    color: #999 !important;
+    cursor: not-allowed !important;
+    opacity: 0.7;
+    box-shadow: none !important;
+  }
+
   /* STYLING TOMBOL & SUMMARY TOPPING MULTI-SELECT */
   .btn-select-topping {
     width: 100%;
@@ -1094,6 +1104,14 @@
               <button class="btn-select-topping" onclick="bukaToppingModal('${item.id}')">
                 <span id="topping-label-${item.id}" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 85%;">${labelTopping}</span>
                 <span>⚙️</span>
+              </button>
+            `;
+          } else {
+            // Jika produk TANPA topping (Mute, Pudar & Disabled / Tidak Bisa Diklik)
+            toppingButtonHtml = `
+              <button class="btn-select-topping disabled" disabled title="Menu ini disajikan tanpa topping">
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 85%;">Tanpa Topping</span>
+                <span>🔒</span>
               </button>
             `;
           }
