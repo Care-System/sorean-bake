@@ -1025,15 +1025,20 @@
           kat = { kategori: row.kategori, items: [] };
           menuData.push(kat);
         }
+
+        // KONTROL VISIBILITAS TOPPING BERDASARKAN KOLOM is_topping DI SHEETS
+        // Mendukung format: TRUE / true / 1 / "ya" / "YES"
+        const valIsTopping = row.is_topping !== undefined && row.is_topping !== null ? String(row.is_topping).trim().toLowerCase() : "";
+        const canSelectTopping = valIsTopping === "true" || valIsTopping === "1" || valIsTopping === "ya" || valIsTopping === "yes";
         
         kat.items.push({
           id: String(row.id),
           nama: row.nama,
-          isTopping: row.is_topping === true || String(row.is_topping).toLowerCase() === 'true' || row.is_topping === 1 || String(row.is_topping).toLowerCase() === 'ya'
           varian: row.varian || "",
           harga: Number(row.harga),
           hargaCoret: row.harga_coret ? Number(row.harga_coret) : null,
-          img: formatUrlGambar(row.img)
+          img: formatUrlGambar(row.img),
+          isTopping: canSelectTopping // Status apakah produk ini punya fitur pilih topping
         });
       });
 
