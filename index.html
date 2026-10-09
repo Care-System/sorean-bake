@@ -1029,6 +1029,7 @@
         kat.items.push({
           id: String(row.id),
           nama: row.nama,
+          isTopping: row.is_topping === true || String(row.is_topping).toLowerCase() === 'true' || row.is_topping === 1 || String(row.is_topping).toLowerCase() === 'ya'
           varian: row.varian || "",
           harga: Number(row.harga),
           hargaCoret: row.harga_coret ? Number(row.harga_coret) : null,
@@ -1077,8 +1078,20 @@
             labelTopping = selectedIndices.map(idx => listTopping[idx].nama).join(", ");
           }
 
-          // CEK APAKAH DESKRIPSI/VARIAN LEBIH DARI 80 KARAKTER UNTUK TOMBOL READ MORE
+          // CEK APAKAH DESKRIPSI/VARIAN LEBIH DARI 75 KARAKTER UNTUK TOMBOL READ MORE
           const isLongText = item.varian && item.varian.length > 75;
+
+          // HANYA RENDER TOMBOL TOPPING JIKA item.isTopping = true
+          let toppingButtonHtml = '';
+          if (item.isTopping) {
+            toppingButtonHtml = `
+              <!-- TOMBOL BUKA MODAL MULTI-SELECT TOPPING -->
+              <button class="btn-select-topping" onclick="bukaToppingModal('${item.id}')">
+                <span id="topping-label-${item.id}" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 85%;">${labelTopping}</span>
+                <span>⚙️</span>
+              </button>
+            `;
+          }
 
           categoryHtml += `
             <div class="product-card">
@@ -1092,11 +1105,8 @@
 
                 ${priceHtml}
 
-                <!-- TOMBOL BUKA MODAL MULTI-SELECT TOPPING -->
-                <button class="btn-select-topping" onclick="bukaToppingModal('${item.id}')">
-                  <span id="topping-label-${item.id}" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 85%;">${labelTopping}</span>
-                  <span>⚙️</span>
-                </button>
+                <!-- HASIL CONDITIONAL RENDER TOMBOL TOPPING -->
+                ${toppingButtonHtml}
               </div>
 
               <div>
