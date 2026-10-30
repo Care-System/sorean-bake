@@ -966,7 +966,22 @@
       return url;
     }
 
+    // FALLBACK SMARTER: COBA LOAD DIRECT GOOGLE DRIVE SEBELUM JADI PLACEHOLDER
     function handleImageError(imgElem) {
+      if (!imgElem) return;
+
+      // Cek apakah error terjadi saat menggunakan wsrv.nl
+      if (imgElem.src.includes('wsrv.nl') && !imgElem.dataset.fallbackTried) {
+        imgElem.dataset.fallbackTried = "true";
+        const originalUrlMatch = imgElem.src.match(/url=([^&]+)/);
+        if (originalUrlMatch && originalUrlMatch[1]) {
+          const originalUrl = decodeURIComponent(originalUrlMatch[1]);
+          imgElem.src = originalUrl;
+          return;
+        }
+      }
+
+      // Jika direct link juga gagal atau bukan wsrv.nl, tampilkan SVG Placeholder
       imgElem.onerror = null;
       imgElem.src = PLACEHOLDER_HARDCODE;
     }
@@ -1037,7 +1052,6 @@
         }
 
         // KONTROL VISIBILITAS TOPPING BERDASARKAN KOLOM is_topping DI SHEETS
-        // Mendukung format: TRUE / true / 1 / "ya" / "YES"
         const valIsTopping = row.is_topping !== undefined && row.is_topping !== null ? String(row.is_topping).trim().toLowerCase() : "";
         const canSelectTopping = valIsTopping === "true" || valIsTopping === "1" || valIsTopping === "ya" || valIsTopping === "yes";
         
@@ -1471,17 +1485,6 @@
     function closeImageModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
-
-    setInterval(() => {
-      document.querySelectorAll('.product-card img, .slide-item img, .gallery-item img').forEach(img => {
-        if (!img.dataset.loaded && (!img.complete || img.naturalWidth === 0)) {
-          if (!img.dataset.retry) {
-            img.dataset.retry = "true";
-            handleImageError(img);
-          }
-        }
-      });
-    }, 3000);
 
     document.addEventListener("DOMContentLoaded", () => {
       loadDataDariGoogleSheets();
